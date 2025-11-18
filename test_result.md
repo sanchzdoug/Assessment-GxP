@@ -119,15 +119,18 @@ frontend:
 
   - task: "Company Registration Testing"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/CompanyRegistration.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
         - working: false
         - agent: "testing"
         - comment: "❌ FAILED - Form fields present (company name, CNPJ working), but dropdown selection for industry segment has visibility issues. Pharmaceutical option not clickable in dropdown. Form submission navigation works but segment selection blocks complete form filling"
+        - working: true
+        - agent: "testing"
+        - comment: "✅ PASSED - Comprehensive testing completed. Industry Segment dropdown working correctly - opens properly, displays all 8 options (Pharmaceutical, Biotechnology, Medical Devices, Veterinary, Cosmetics, Chemical, CRO, CMO), options are visible and clickable. Pharmaceutical option successfully selectable. All form fields functional (Company Name, CNPJ, Organization Type radio buttons, Company Size dropdown, Employee count). Form ready for submission. Previous dropdown issue has been resolved."
 
   - task: "Assessment Wizard Testing"
     implemented: true

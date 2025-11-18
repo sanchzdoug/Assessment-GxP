@@ -531,11 +531,261 @@ const SystemsInventory = () => {
           </Card>
 
           {/* Systems List */}
-          <Tabs defaultValue="list" className="space-y-6">
+          <Tabs defaultValue="selection" className="space-y-6">
             <TabsList>
+              <TabsTrigger value="selection">Seleção de Sistemas</TabsTrigger>
               <TabsTrigger value="list">Systems List</TabsTrigger>
               <TabsTrigger value="costs">Cost Analysis</TabsTrigger>
             </TabsList>
+
+            <TabsContent value="selection" className="space-y-4">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Server className="h-5 w-5" />
+                    Selecionar e Configurar Sistemas Utilizados
+                  </CardTitle>
+                  <CardDescription>
+                    Marque os sistemas que sua empresa utiliza e preencha as informações de custo e configuração
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Search and Filter for System Selection */}
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1">
+                        <div className="relative">
+                          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+                          <Input
+                            placeholder="Buscar sistemas..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10"
+                          />
+                        </div>
+                      </div>
+                      <Select value={filterType} onValueChange={setFilterType}>
+                        <SelectTrigger className="w-[200px]">
+                          <SelectValue placeholder="Filtrar por tipo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Todos os Tipos</SelectItem>
+                          {systemTypes.map((type) => (
+                            <SelectItem key={type} value={type}>{type}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Systems Selection Table */}
+                    <div className="border rounded-lg overflow-hidden">
+                      <div className="overflow-x-auto">
+                        <table className="w-full min-w-[1200px]">
+                          <thead className="bg-muted/50">
+                            <tr>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Selecionado</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Processo de Negócio</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Sistema</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Descrição (O que ele faz?)</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Custo Licença Mês (R$)</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Custo Licença Ano (R$)</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Qtde Licenças</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Nr de Usuários</th>
+                              <th className="text-left p-3 font-semibold text-foreground border-r">Infra. Local?</th>
+                              <th className="text-left p-3 font-semibold text-foreground">Custo de Infra. (R$)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {predefinedSystems
+                              .filter(sys => {
+                                const matchesSearch = sys.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                     sys.process?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                     sys.type.toLowerCase().includes(searchTerm.toLowerCase());
+                                const matchesFilter = filterType === 'all' || sys.type === filterType;
+                                return matchesSearch && matchesFilter;
+                              })
+                              .map((system, index) => {
+                                const isSelected = systems.some(s => s.name === system.name);
+                                const systemData = systems.find(s => s.name === system.name) || {
+                                  monthlyCost: '',
+                                  supportCost: '',
+                                  users: '',
+                                  infrastructureCost: '',
+                                  deployment: 'cloud'
+                                };
+                                
+                                return (
+                                  <tr key={index} className={`border-t hover:bg-muted/30 ${isSelected ? 'bg-primary-light/30' : ''}`}>
+                                    <td className="p-3 border-r">
+                                      <Checkbox
+                                        checked={isSelected}
+                                        onCheckedChange={(checked) => {
+                                          if (checked) {
+                                            const newSystem = {
+                                              id: systems.length + 1,
+                                              name: system.name,
+                                              type: system.type,
+                                              category: system.process,
+                                              vendor: system.vendor,
+                                              version: '',
+                                              deployment: 'cloud',
+                                              users: 0,
+                                              monthlyCost: 0,
+                                              supportCost: 0,
+                                              infrastructureCost: 0,
+                                              gxpCritical: ['QMS', 'LIMS', 'MES', 'ERP'].includes(system.type),
+                                              integrations: [],
+                                              sla: "99.0%",
+                                              utilization: 75
+                                            };
+                                            setSystems([...systems, newSystem]);
+                                          } else {
+                                            setSystems(systems.filter(s => s.name !== system.name));
+                                          }
+                                        }}
+                                      />
+                                    </td>
+                                    <td className="p-3 border-r">
+                                      <Badge variant="outline" className="text-xs">{system.process}</Badge>
+                                    </td>
+                                    <td className="p-3 border-r font-medium text-foreground">{system.name}</td>
+                                    <td className="p-3 border-r text-sm text-muted-foreground max-w-[200px]">{system.description}</td>
+                                    <td className="p-3 border-r">
+                                      {isSelected && (
+                                        <Input
+                                          type="number"
+                                          placeholder="0"
+                                          value={systemData.monthlyCost}
+                                          onChange={(e) => {
+                                            const updatedSystems = systems.map(s => 
+                                              s.name === system.name 
+                                                ? { ...s, monthlyCost: parseInt(e.target.value) || 0 }
+                                                : s
+                                            );
+                                            setSystems(updatedSystems);
+                                          }}
+                                          className="w-24 h-8 text-sm"
+                                        />
+                                      )}
+                                    </td>
+                                    <td className="p-3 border-r">
+                                      {isSelected && (
+                                        <Input
+                                          type="number"
+                                          placeholder="0"
+                                          value={systemData.supportCost}
+                                          onChange={(e) => {
+                                            const updatedSystems = systems.map(s => 
+                                              s.name === system.name 
+                                                ? { ...s, supportCost: parseInt(e.target.value) || 0 }
+                                                : s
+                                            );
+                                            setSystems(updatedSystems);
+                                          }}
+                                          className="w-24 h-8 text-sm"
+                                        />
+                                      )}
+                                    </td>
+                                    <td className="p-3 border-r">
+                                      {isSelected && (
+                                        <Input
+                                          type="number"
+                                          placeholder="0"
+                                          value={systemData.users}
+                                          onChange={(e) => {
+                                            const updatedSystems = systems.map(s => 
+                                              s.name === system.name 
+                                                ? { ...s, users: parseInt(e.target.value) || 0 }
+                                                : s
+                                            );
+                                            setSystems(updatedSystems);
+                                          }}
+                                          className="w-20 h-8 text-sm"
+                                        />
+                                      )}
+                                    </td>
+                                    <td className="p-3 border-r">
+                                      {isSelected && (
+                                        <Input
+                                          type="number"
+                                          placeholder="0"
+                                          className="w-20 h-8 text-sm"
+                                        />
+                                      )}
+                                    </td>
+                                    <td className="p-3 border-r">
+                                      {isSelected && (
+                                        <Select 
+                                          value={systemData.deployment} 
+                                          onValueChange={(value) => {
+                                            const updatedSystems = systems.map(s => 
+                                              s.name === system.name 
+                                                ? { ...s, deployment: value }
+                                                : s
+                                            );
+                                            setSystems(updatedSystems);
+                                          }}
+                                        >
+                                          <SelectTrigger className="w-20 h-8 text-xs">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="cloud">Não</SelectItem>
+                                            <SelectItem value="onpremise">Sim</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      )}
+                                    </td>
+                                    <td className="p-3">
+                                      {isSelected && (
+                                        <Input
+                                          type="number"
+                                          placeholder="0"
+                                          value={systemData.infrastructureCost}
+                                          onChange={(e) => {
+                                            const updatedSystems = systems.map(s => 
+                                              s.name === system.name 
+                                                ? { ...s, infrastructureCost: parseInt(e.target.value) || 0 }
+                                                : s
+                                            );
+                                            setSystems(updatedSystems);
+                                          }}
+                                          className="w-24 h-8 text-sm"
+                                        />
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    {/* Selected Systems Summary */}
+                    {systems.length > 0 && (
+                      <Card className="bg-primary-light border-primary/20">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-semibold text-foreground">Resumo dos Sistemas Selecionados</h3>
+                              <p className="text-sm text-muted-foreground">
+                                {systems.length} sistemas selecionados • 
+                                Custo total mensal: R$ {systems.reduce((sum, s) => sum + (s.monthlyCost || 0), 0).toLocaleString()} • 
+                                Custo total anual: R$ {systems.reduce((sum, s) => sum + (s.monthlyCost || 0) * 12 + (s.supportCost || 0) + (s.infrastructureCost || 0), 0).toLocaleString()}
+                              </p>
+                            </div>
+                            <Button onClick={handleContinue} className="bg-success hover:bg-success/90">
+                              Salvar e Continuar
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
 
             <TabsContent value="list" className="space-y-4">
               <div className="grid gap-4">

@@ -129,14 +129,45 @@ const SystemsInventory = () => {
   ];
 
   const predefinedSystems = [
-    { name: "SAP ECC", type: "ERP", vendor: "SAP" },
-    { name: "Oracle EBS", type: "ERP", vendor: "Oracle" },
-    { name: "MasterControl", type: "QMS", vendor: "MasterControl" },
-    { name: "Veeva Quality", type: "QMS", vendor: "Veeva" },
-    { name: "StarLIMS", type: "LIMS", vendor: "Abbott" },
-    { name: "NuGenesis", type: "LIMS", vendor: "Waters" },
-    { name: "Rockwell FactoryTalk", type: "MES", vendor: "Rockwell" },
-    { name: "Siemens OpCenter", type: "MES", vendor: "Siemens" }
+    // ERP Systems
+    { name: "SAP ECC", type: "ERP", vendor: "SAP", process: "Gestão Empresarial", description: "Sistema integrado de gestão empresarial" },
+    { name: "SAP S/4HANA", type: "ERP", vendor: "SAP", process: "Gestão Empresarial", description: "ERP de nova geração com analytics em tempo real" },
+    { name: "Oracle EBS", type: "ERP", vendor: "Oracle", process: "Gestão Empresarial", description: "Suite completa de aplicações empresariais" },
+    { name: "TOTVS Protheus", type: "ERP", vendor: "TOTVS", process: "Gestão Empresarial", description: "ERP nacional para gestão integrada" },
+    
+    // Quality Management Systems
+    { name: "TrackWise Digital", type: "QMS", vendor: "Sparta Systems", process: "Gestão da Qualidade", description: "Plataforma digital para gestão da qualidade GxP" },
+    { name: "MasterControl", type: "QMS", vendor: "MasterControl", process: "Gestão da Qualidade", description: "Software de gestão de qualidade e compliance" },
+    { name: "Veeva Quality", type: "QMS", vendor: "Veeva", process: "Gestão da Qualidade", description: "Suite de qualidade para ciências da vida" },
+    { name: "SoftExpert Excellence Suite", type: "QMS", vendor: "SoftExpert", process: "Gestão da Qualidade", description: "Plataforma de gestão integrada da qualidade" },
+    
+    // Laboratory Systems
+    { name: "LabWare LIMS", type: "LIMS", vendor: "LabWare", process: "Laboratório", description: "Sistema de gestão de informações laboratoriais" },
+    { name: "StarLIMS", type: "LIMS", vendor: "Abbott", process: "Laboratório", description: "Solução LIMS para laboratórios analíticos" },
+    { name: "NuGenesis SDMS", type: "LIMS", vendor: "Waters", process: "Laboratório", description: "Sistema de gestão de dados científicos" },
+    { name: "LabVantage", type: "LIMS", vendor: "LabVantage", process: "Laboratório", description: "Plataforma LIMS baseada na web" },
+    
+    // Manufacturing Execution Systems
+    { name: "Werum PAS-X", type: "MES", vendor: "Werum", process: "Produção", description: "Sistema de execução para produção farmacêutica" },
+    { name: "Rockwell FactoryTalk", type: "MES", vendor: "Rockwell", process: "Produção", description: "Plataforma de automação industrial" },
+    { name: "Siemens OpCenter", type: "MES", vendor: "Siemens", process: "Produção", description: "Suite MES para operações de manufatura" },
+    
+    // Warehouse & Logistics
+    { name: "Manhattan WMS", type: "WMS", vendor: "Manhattan", process: "Supply Chain", description: "Sistema de gestão de armazém" },
+    { name: "SAP EWM", type: "WMS", vendor: "SAP", process: "Supply Chain", description: "Extended Warehouse Management" },
+    { name: "TOTVS Logística", type: "TMS", vendor: "TOTVS", process: "Supply Chain", description: "Sistema de gestão de transportes" },
+    
+    // Validation & GAMP
+    { name: "SoftExpert Validation", type: "Validation", vendor: "SoftExpert", process: "Validação", description: "Software para validação de sistemas" },
+    { name: "HP ALM", type: "Validation", vendor: "HP", process: "Validação", description: "Application Lifecycle Management" },
+    
+    // PLM & R&D
+    { name: "Siemens TeamCenter", type: "PLM", vendor: "Siemens", process: "P&D", description: "Product Lifecycle Management" },
+    { name: "Oracle PLM", type: "PLM", vendor: "Oracle", process: "P&D", description: "Gestão do ciclo de vida do produto" },
+    
+    // CRM & Commercial
+    { name: "Salesforce", type: "CRM", vendor: "Salesforce", process: "Comercial", description: "Plataforma de relacionamento com cliente" },
+    { name: "Microsoft Dynamics", type: "CRM", vendor: "Microsoft", process: "Comercial", description: "Solução CRM empresarial" }
   ];
 
   const filteredSystems = systems.filter(system => {

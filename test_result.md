@@ -167,6 +167,9 @@ frontend:
         - working: true
         - agent: "testing"
         - comment: "✅ PASSED - System addition dialog opens and functions correctly, systems list displays with detailed information (SAP, TrackWise, LabWare), search functionality present, cost analysis tabs working, filtering available, comprehensive cost metrics displayed"
+        - working: true
+        - agent: "testing"
+        - comment: "✅ PASSED - NEW FEATURE TESTED: 'Seleção de Sistemas' tab is implemented and working correctly. Tab is default active tab, displays 24 predefined systems in structured table with proper headers (Selecionado, Processo de Negócio, Sistema, Descrição, etc.). Search functionality works (tested with 'SAP', 'TrackWise'), filter functionality works (tested ERP filter), table shows systems with business process categories, descriptions, and cost fields. Summary section present. 'Salvar e Continuar' button successfully redirects to reports page. Interface matches requirements with proper Portuguese labels and professional layout."
 
   - task: "Reports Page Testing"
     implemented: true

@@ -18,6 +18,7 @@ function App() {
           <Route path="/register" element={<CompanyRegistration />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/assessment" element={<AssessmentWizard />} />
+          <Route path="/assessments" element={<AssessmentsManager />} />
           <Route path="/systems" element={<SystemsInventory />} />
           <Route path="/reports" element={<ReportsPage />} />
         </Routes>

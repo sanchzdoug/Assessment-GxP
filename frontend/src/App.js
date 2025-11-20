@@ -6,6 +6,7 @@ import AssessmentWizard from "./components/AssessmentWizard";
 import CompanyRegistration from "./components/CompanyRegistration";
 import SystemsInventory from "./components/SystemsInventory";
 import ReportsPage from "./components/ReportsPage";
+import AssessmentsManager from "./components/AssessmentsManager";
 import "./App.css";
 
 function App() {

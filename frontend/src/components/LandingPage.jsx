@@ -44,22 +44,7 @@ const LandingPage = () => {
     "Veterinary", "Cosmetics", "Chemical"
   ];
 
-  const testimonials = [
-    {
-      name: "Dr. Sarah Mitchell",
-      role: "Chief Quality Officer",
-      company: "BioPharma Solutions",
-      content: "This platform transformed our compliance assessment process. We identified critical gaps we didn't even know existed.",
-      avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwyfHxidXNpbmVzcyUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3NjMzNzAwNzB8MA&ixlib=rb-4.1.0&q=85&w=150"
-    },
-    {
-      name: "Marcus Rodriguez",
-      role: "VP Regulatory Affairs",
-      company: "MedTech Innovations",
-      content: "The automated reporting saved us weeks of work. The insights are actionable and the regulatory coverage is comprehensive.",
-      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NjZ8MHwxfHNlYXJjaHwzfHxidXNpbmVzcyUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3NjMzNzAwNzB8MA&ixlib=rb-4.1.0&q=85&w=150"
-    }
-  ];
+  // Testimonials section removed as requested
 
   return (
     <div className="min-h-screen bg-gradient-hero">

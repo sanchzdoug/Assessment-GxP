@@ -143,6 +143,9 @@ frontend:
         - working: true
         - agent: "testing"
         - comment: "✅ PASSED - Multi-step assessment form functional, question display working, radio button selection working, progress bar present, area navigation available, save functionality working, area overview cards displaying correctly"
+        - working: true
+        - agent: "testing"
+        - comment: "✅ PASSED - NOVAS PERGUNTAS NO ASSESSMENT TESTED (Jan 2025): Assessment now has 12 areas (expanded from previous version). All 8 new areas confirmed: 1) Produção/Manufatura (25 questions), 2) Laboratório/LIMS (25 questions), 3) Supply Chain/WMS/TMS, 4) Treinamentos/LMS, 5) Engenharia & Manutenção, 6) P&D/Desenvolvimento, 7) Farmacovigilância, 8) Pesquisa Clínica. All questions are properly displayed in Portuguese (e.g., 'Ordens de produção são eletrônicas?'). Navigation between areas works perfectly - tested multiple area switches. Progress calculation is functional. Assessment areas grid shows all 12 areas with proper completion percentages. Feature is production-ready with comprehensive coverage of GxP compliance areas."
 
   - task: "Dashboard Testing"
     implemented: true

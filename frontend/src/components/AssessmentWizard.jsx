@@ -57,50 +57,40 @@ const AssessmentWizard = () => {
     },
     {
       id: 'validation',
-      name: 'System Validation',
-      description: 'Computer system validation, GAMP 5, and Part 11 compliance',
+      name: 'Validação de Sistemas',
+      description: 'Validação de sistemas computadorizados, GAMP 5 e conformidade Part 11',
       weight: 15,
       questions: [
-        {
-          id: 'v1',
-          text: 'Existe Política de Validação implementada?',
-          category: 'Validation Policy'
-        },
-        {
-          id: 'v2',
-          text: 'Inventário de sistemas GxP está atualizado?',
-          category: 'System Inventory'
-        },
-        {
-          id: 'v3',
-          text: 'Avaliação de impacto GAMP 5 é aplicada para cada sistema?',
-          category: 'Impact Assessment'
-        },
-        {
-          id: 'v4',
-          text: 'Análise de riscos GAMP 5 está implementada?',
-          category: 'Risk Analysis'
-        },
-        {
-          id: 'v5',
-          text: 'Existe Manutenção do Estado Validado formal?',
-          category: 'Validated State'
-        },
-        {
-          id: 'v6',
-          text: 'Evidências de testes são rastreáveis e auditáveis?',
-          category: 'Test Documentation'
-        },
-        {
-          id: 'v7',
-          text: 'Assinaturas eletrônicas cumprem Part 11?',
-          category: 'Electronic Signatures'
-        },
-        {
-          id: 'v8',
-          text: 'Trilhas de auditoria são completas e imutáveis?',
-          category: 'Audit Trails'
-        }
+        { id: 'v1', text: 'Existe Política de Validação vigente?', category: 'Política de Validação' },
+        { id: 'v2', text: 'Há inventário atualizado de sistemas computadorizados?', category: 'Inventário de Sistemas' },
+        { id: 'v3', text: 'Os sistemas são classificados quanto ao impacto GxP?', category: 'Classificação GxP' },
+        { id: 'v4', text: 'Requisitos do usuário (URS) são elaborados formalmente?', category: 'Especificações' },
+        { id: 'v5', text: 'Especificações funcionais e técnicas são mantidas atualizadas?', category: 'Especificações' },
+        { id: 'v6', text: 'Existe matriz de rastreabilidade completa?', category: 'Rastreabilidade' },
+        { id: 'v7', text: 'Análises de risco seguem GAMP 5?', category: 'Análise de Riscos' },
+        { id: 'v8', text: 'Riscos são revisados por mudança?', category: 'Análise de Riscos' },
+        { id: 'v9', text: 'Testes seguem padrões de QI/QO/QD?', category: 'Testes de Qualificação' },
+        { id: 'v10', text: 'Evidências de teste são auditáveis e rastreáveis?', category: 'Evidências de Teste' },
+        { id: 'v11', text: 'Execução de testes é controlada por sistema?', category: 'Controle de Testes' },
+        { id: 'v12', text: 'Há autenticação individual para cada usuário?', category: 'Segurança' },
+        { id: 'v13', text: 'Trilhas de auditoria são completas e imutáveis?', category: 'Auditoria' },
+        { id: 'v14', text: 'Assinaturas eletrônicas cumprem requisitos regulatórios?', category: '21 CFR Part 11' },
+        { id: 'v15', text: 'Sessões possuem controle de tempo e travamento?', category: 'Segurança' },
+        { id: 'v16', text: 'Mudanças são avaliadas quanto ao impacto na validação?', category: 'Gestão de Mudanças' },
+        { id: 'v17', text: 'Atualizações, releases e patches passam por revisão?', category: 'Gestão de Mudanças' },
+        { id: 'v18', text: 'Backup e restauração são validados?', category: 'Backup e Recuperação' },
+        { id: 'v19', text: 'Há plano de recuperação de desastres testado?', category: 'Continuidade' },
+        { id: 'v20', text: 'Dados são retidos conforme legislação?', category: 'Retenção de Dados' },
+        { id: 'v21', text: 'Existe processo de manutenção do estado validado?', category: 'Estado Validado' },
+        { id: 'v22', text: 'Revisões periódicas de validação são executadas?', category: 'Revisão Periódica' },
+        { id: 'v23', text: 'Fornecedores de serviços em nuvem são avaliados?', category: 'Cloud Computing' },
+        { id: 'v24', text: 'Contratos de nuvem abordam requisitos regulatórios?', category: 'Cloud Computing' },
+        { id: 'v25', text: 'Integrações entre sistemas são validadas?', category: 'Integrações' },
+        { id: 'v26', text: 'Logs de integrações são monitorados?', category: 'Integrações' },
+        { id: 'v27', text: 'Segurança cibernética integra o processo de validação?', category: 'Segurança Cibernética' },
+        { id: 'v28', text: 'Vulnerabilidades são tratadas formalmente?', category: 'Segurança Cibernética' },
+        { id: 'v29', text: 'Arquivamento segue práticas regulamentares?', category: 'Arquivamento' },
+        { id: 'v30', text: 'Sistemas descontinuados possuem plano formal de encerramento?', category: 'Encerramento' }
       ]
     },
     {

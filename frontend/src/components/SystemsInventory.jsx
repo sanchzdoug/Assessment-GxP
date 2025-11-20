@@ -445,6 +445,78 @@ const SystemsInventory = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
+                
+                {/* Custom System Dialog */}
+                <Dialog open={showCustomSystemDialog} onOpenChange={setShowCustomSystemDialog}>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Adicionar Sistema Customizado</DialogTitle>
+                      <DialogDescription>
+                        Adicione um sistema que não está na lista padrão. Ele será incluído nas opções de seleção.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid grid-cols-2 gap-4 py-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="customSystemName">Nome do Sistema *</Label>
+                        <Input
+                          id="customSystemName"
+                          placeholder="Ex: Sistema Interno de Produção"
+                          value={customSystem.name}
+                          onChange={(e) => setCustomSystem({...customSystem, name: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="customSystemType">Tipo *</Label>
+                        <Select value={customSystem.type} onValueChange={(value) => setCustomSystem({...customSystem, type: value})}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione o tipo" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {systemTypes.map((type) => (
+                              <SelectItem key={type} value={type}>{type}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="customSystemProcess">Processo de Negócio *</Label>
+                        <Input
+                          id="customSystemProcess"
+                          placeholder="Ex: Gestão da Produção"
+                          value={customSystem.process}
+                          onChange={(e) => setCustomSystem({...customSystem, process: e.target.value})}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="customSystemVendor">Fornecedor *</Label>
+                        <Input
+                          id="customSystemVendor"
+                          placeholder="Ex: Empresa XYZ"
+                          value={customSystem.vendor}
+                          onChange={(e) => setCustomSystem({...customSystem, vendor: e.target.value})}
+                        />
+                      </div>
+                      <div className="col-span-2 space-y-2">
+                        <Label htmlFor="customSystemDescription">Descrição</Label>
+                        <Input
+                          id="customSystemDescription"
+                          placeholder="Descreva o que este sistema faz..."
+                          value={customSystem.description}
+                          onChange={(e) => setCustomSystem({...customSystem, description: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end gap-3">
+                      <Button variant="outline" onClick={() => setShowCustomSystemDialog(false)}>
+                        Cancelar
+                      </Button>
+                      <Button onClick={handleAddCustomSystem} className="bg-primary hover:bg-primary-hover">
+                        Adicionar Sistema
+                      </Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                
                 <Button onClick={handleContinue} className="bg-success hover:bg-success/90">
                   Continue to Reports
                 </Button>

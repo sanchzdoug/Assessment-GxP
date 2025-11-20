@@ -583,6 +583,14 @@ const SystemsInventory = () => {
                           ))}
                         </SelectContent>
                       </Select>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setShowCustomSystemDialog(true)}
+                        className="flex items-center gap-2"
+                      >
+                        <Plus className="h-4 w-4" />
+                        Sistema Customizado
+                      </Button>
                     </div>
 
                     {/* Systems Selection Table */}

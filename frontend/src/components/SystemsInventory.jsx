@@ -296,6 +296,9 @@ const SystemsInventory = () => {
               <Link to="/dashboard" className="text-muted-foreground hover:text-foreground">
                 Dashboard
               </Link>
+              <Link to="/assessments" className="text-muted-foreground hover:text-foreground">
+                Assessments
+              </Link>
               <Link to="/assessment" className="text-muted-foreground hover:text-foreground">
                 Assessment
               </Link>

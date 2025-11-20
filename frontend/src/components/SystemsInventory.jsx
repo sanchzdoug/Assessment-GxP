@@ -445,7 +445,7 @@ const SystemsInventory = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
-                
+
                 {/* Custom System Dialog */}
                 <Dialog open={showCustomSystemDialog} onOpenChange={setShowCustomSystemDialog}>
                   <DialogContent className="max-w-2xl">

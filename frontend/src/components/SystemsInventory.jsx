@@ -232,6 +232,37 @@ const SystemsInventory = () => {
     toast.success("System added successfully");
   };
 
+  const handleAddCustomSystem = () => {
+    if (!customSystem.name || !customSystem.type || !customSystem.process || !customSystem.vendor) {
+      toast.error("Por favor, preencha todos os campos obrigatórios");
+      return;
+    }
+
+    // Add to predefined systems list for immediate selection
+    const newCustomSystem = {
+      name: customSystem.name,
+      type: customSystem.type,
+      vendor: customSystem.vendor,
+      process: customSystem.process,
+      description: customSystem.description || `Sistema customizado: ${customSystem.name}`
+    };
+
+    // Add to predefined systems for selection
+    predefinedSystems.push(newCustomSystem);
+    
+    // Reset form
+    setCustomSystem({
+      name: '',
+      type: '',
+      process: '',
+      vendor: '',
+      description: ''
+    });
+    
+    setShowCustomSystemDialog(false);
+    toast.success("Sistema customizado adicionado à lista de seleção com sucesso!");
+  };
+
   const handleContinue = () => {
     // Save systems data
     localStorage.setItem('systemsInventory', JSON.stringify(systems));

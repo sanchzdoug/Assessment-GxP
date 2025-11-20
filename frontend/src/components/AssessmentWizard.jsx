@@ -21,50 +21,38 @@ const AssessmentWizard = () => {
   const assessmentAreas = [
     {
       id: 'quality',
-      name: 'Quality Assurance',
-      description: 'Quality management systems, documentation, and compliance processes',
+      name: 'Garantia da Qualidade',
+      description: 'Sistemas de gestão da qualidade, documentação e processos de compliance',
       weight: 20,
       questions: [
-        {
-          id: 'q1',
-          text: 'Existe Política de Qualidade formal e vigente?',
-          category: 'Policy & Documentation'
-        },
-        {
-          id: 'q2', 
-          text: 'Há gestão eletrônica e auditável de documentos BPx?',
-          category: 'Document Management'
-        },
-        {
-          id: 'q3',
-          text: 'CAPAs possuem avaliação de eficácia documentada?',
-          category: 'CAPA Management'
-        },
-        {
-          id: 'q4',
-          text: 'Gestão de mudanças segue fluxo estruturado?',
-          category: 'Change Management'
-        },
-        {
-          id: 'q5',
-          text: 'Auditorias internas são planejadas e documentadas?',
-          category: 'Internal Audits'
-        },
-        {
-          id: 'q6',
-          text: 'Há indicadores de qualidade monitorados continuamente?',
-          category: 'Quality Metrics'
-        },
-        {
-          id: 'q7',
-          text: 'ALCOA+ está incorporado na prática operacional?',
-          category: 'Data Integrity'
-        },
-        {
-          id: 'q8',
-          text: 'Houve qualificação de fornecedores críticos?',
-          category: 'Supplier Qualification'
-        }
+        { id: 'q1', text: 'Existe Política de Qualidade atualizada e comunicada?', category: 'Política e Documentação' },
+        { id: 'q2', text: 'Os processos críticos possuem Procedimentos Operacionais Padrão vigentes?', category: 'Procedimentos' },
+        { id: 'q3', text: 'O sistema de Gestão da Qualidade possui indicadores definidos e monitorados?', category: 'Indicadores' },
+        { id: 'q4', text: 'Há revisão da qualidade pela alta direção?', category: 'Revisão Gerencial' },
+        { id: 'q5', text: 'Documentos críticos possuem controle de versão?', category: 'Controle de Documentos' },
+        { id: 'q6', text: 'Documentos eletrônicos possuem trilha de auditoria completa?', category: 'Integridade de Dados' },
+        { id: 'q7', text: 'Há metodologia formal de Gestão de Riscos da Qualidade?', category: 'Gestão de Riscos' },
+        { id: 'q8', text: 'Riscos são revisados periodicamente?', category: 'Gestão de Riscos' },
+        { id: 'q9', text: 'Desvios são registrados de forma estruturada?', category: 'Gestão de Desvios' },
+        { id: 'q10', text: 'CAPAs possuem avaliação formal de eficácia?', category: 'CAPA' },
+        { id: 'q11', text: 'Existe processo estruturado de Gestão de Mudanças?', category: 'Gestão de Mudanças' },
+        { id: 'q12', text: 'Mudanças críticas são avaliadas pela Qualidade?', category: 'Gestão de Mudanças' },
+        { id: 'q13', text: 'Auditorias internas são planejadas e executadas?', category: 'Auditoria Interna' },
+        { id: 'q14', text: 'Fornecedores críticos são avaliados e auditados?', category: 'Qualificação de Fornecedores' },
+        { id: 'q15', text: 'Há matriz de competência por função?', category: 'Treinamento' },
+        { id: 'q16', text: 'Treinamentos críticos possuem avaliação obrigatória?', category: 'Treinamento' },
+        { id: 'q17', text: 'Resultados de treinamento são rastreáveis eletronicamente?', category: 'Treinamento' },
+        { id: 'q18', text: 'Existe política formal de integridade de dados (ALCOA+)?', category: 'Integridade de Dados' },
+        { id: 'q19', text: 'Auditorias de integridade são realizadas periodicamente?', category: 'Integridade de Dados' },
+        { id: 'q20', text: 'O sistema de qualidade está alinhado à RDC 658/2022?', category: 'Conformidade Regulatória' },
+        { id: 'q21', text: 'Há conformidade com IN 134/2022 e IN 138/2022?', category: 'Conformidade Regulatória' },
+        { id: 'q22', text: 'Fluxos BPx possuem registros completos e auditáveis?', category: 'Boas Práticas' },
+        { id: 'q23', text: 'Parâmetros ambientais são controlados e monitorados?', category: 'Controle Ambiental' },
+        { id: 'q24', text: 'Documentação de lote é revisada antes da liberação?', category: 'Liberação de Lotes' },
+        { id: 'q25', text: 'Registros de lote possuem rastreabilidade ponta a ponta?', category: 'Rastreabilidade' },
+        { id: 'q26', text: 'A empresa possui gestão de lições aprendidas?', category: 'Melhoria Contínua' },
+        { id: 'q27', text: 'Há programa formal de melhoria contínua?', category: 'Melhoria Contínua' },
+        { id: 'q28', text: 'Comunicados de qualidade são registrados e acompanhados?', category: 'Comunicação' }
       ]
     },
     {

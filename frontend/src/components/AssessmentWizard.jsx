@@ -95,98 +95,68 @@ const AssessmentWizard = () => {
     },
     {
       id: 'it',
-      name: 'Information Technology',
-      description: 'IT infrastructure, systems management, and technical controls',
+      name: 'Tecnologia da Informação',
+      description: 'Infraestrutura de TI, gestão de sistemas e controles técnicos',
       weight: 15,
       questions: [
-        {
-          id: 'it1',
-          text: 'Inventário de hardware e software existe e está atualizado?',
-          category: 'Asset Management'
-        },
-        {
-          id: 'it2',
-          text: 'Ambientes segregados DEV/QA/PRD estão estabelecidos?',
-          category: 'Environment Management'
-        },
-        {
-          id: 'it3',
-          text: 'Backups possuem teste de restauração periódico?',
-          category: 'Backup & Recovery'
-        },
-        {
-          id: 'it4',
-          text: 'Atualizações e patches seguem governança?',
-          category: 'Patch Management'
-        },
-        {
-          id: 'it5',
-          text: 'Network, banco e servidores possuem monitoramento contínuo?',
-          category: 'Infrastructure Monitoring'
-        },
-        {
-          id: 'it6',
-          text: 'Existe controle de acesso baseado em papéis (RBAC)?',
-          category: 'Access Control'
-        },
-        {
-          id: 'it7',
-          text: 'Sistemas críticos possuem redundância e alta disponibilidade?',
-          category: 'High Availability'
-        },
-        {
-          id: 'it8',
-          text: 'Há SLA formal com áreas de negócio?',
-          category: 'Service Management'
-        }
+        { id: 'it1', text: 'A área possui normas e procedimentos formalizados?', category: 'Políticas e Procedimentos' },
+        { id: 'it2', text: 'Há inventário atualizado de ativos de TI?', category: 'Gestão de Ativos' },
+        { id: 'it3', text: 'Ambientes são separados entre desenvolvimento, testes e produção?', category: 'Gestão de Ambientes' },
+        { id: 'it4', text: 'Há política de backup e restauração?', category: 'Backup e Recuperação' },
+        { id: 'it5', text: 'Testes de restauração são realizados periodicamente?', category: 'Backup e Recuperação' },
+        { id: 'it6', text: 'Existe monitoramento de capacidade e desempenho?', category: 'Monitoramento' },
+        { id: 'it7', text: 'Há redundância para ambientes críticos?', category: 'Alta Disponibilidade' },
+        { id: 'it8', text: 'Sistema de monitoramento registra falhas e alertas?', category: 'Monitoramento' },
+        { id: 'it9', text: 'Mudanças em infraestrutura seguem processo formal?', category: 'Gestão de Mudanças' },
+        { id: 'it10', text: 'Atualizações são avaliadas antes da aplicação?', category: 'Gestão de Atualizações' },
+        { id: 'it11', text: 'Criação e remoção de acessos seguem fluxo controlado?', category: 'Controle de Acesso' },
+        { id: 'it12', text: 'Perfis são revisados periodicamente?', category: 'Controle de Acesso' },
+        { id: 'it13', text: 'Sistemas críticos utilizam autenticação forte?', category: 'Autenticação' },
+        { id: 'it14', text: 'Há plano de continuidade de TI?', category: 'Continuidade' },
+        { id: 'it15', text: 'Testes de contingência são documentados?', category: 'Continuidade' },
+        { id: 'it16', text: 'Contratos de suporte estão vigentes?', category: 'Gestão de Contratos' },
+        { id: 'it17', text: 'Chamados são registrados e analisados?', category: 'Service Desk' },
+        { id: 'it18', text: 'Há prazos de atendimento definidos?', category: 'SLA' },
+        { id: 'it19', text: 'Ferramentas de segurança estão atualizadas?', category: 'Segurança' },
+        { id: 'it20', text: 'Dispositivos externos são controlados?', category: 'Controle de Dispositivos' },
+        { id: 'it21', text: 'TI atende requisitos regulatórios aplicáveis?', category: 'Conformidade' },
+        { id: 'it22', text: 'TI participa da validação de sistemas?', category: 'Validação' },
+        { id: 'it23', text: 'Logs são coletados e monitorados?', category: 'Auditoria' },
+        { id: 'it24', text: 'Eventos críticos têm tratamento prioritário?', category: 'Gestão de Incidentes' },
+        { id: 'it25', text: 'Configurações de servidores são documentadas?', category: 'Documentação' }
       ]
     },
     {
       id: 'security',
-      name: 'Information Security',
-      description: 'Cybersecurity, data protection, and security controls',
+      name: 'Segurança da Informação',
+      description: 'Cibersegurança, proteção de dados e controles de segurança',
       weight: 15,
       questions: [
-        {
-          id: 's1',
-          text: 'Política de Segurança está vigente?',
-          category: 'Security Policy'
-        },
-        {
-          id: 's2',
-          text: 'MFA está implementado?',
-          category: 'Multi-Factor Authentication'
-        },
-        {
-          id: 's3',
-          text: 'Logs de segurança são centralizados?',
-          category: 'Security Logging'
-        },
-        {
-          id: 's4',
-          text: 'Gestão de vulnerabilidades ocorre periodicamente?',
-          category: 'Vulnerability Management'
-        },
-        {
-          id: 's5',
-          text: 'A empresa segue princípios ISO 27001?',
-          category: 'ISO 27001 Compliance'
-        },
-        {
-          id: 's6',
-          text: 'Controle de dispositivos removíveis está implementado?',
-          category: 'Device Control'
-        },
-        {
-          id: 's7',
-          text: 'Treinamentos de segurança são recorrentes?',
-          category: 'Security Training'
-        },
-        {
-          id: 's8',
-          text: 'Existe monitoramento de ameaças?',
-          category: 'Threat Monitoring'
-        }
+        { id: 's1', text: 'Existe Política de Segurança da Informação vigente?', category: 'Política de Segurança' },
+        { id: 's2', text: 'Há programa de conscientização em segurança?', category: 'Conscientização' },
+        { id: 's3', text: 'Senhas seguem políticas restritivas?', category: 'Controle de Acesso' },
+        { id: 's4', text: 'Há autenticação forte para sistemas críticos?', category: 'Autenticação' },
+        { id: 's5', text: 'Perfis seguem princípio do menor privilégio?', category: 'Controle de Acesso' },
+        { id: 's6', text: 'Acessos de terceiros são controlados?', category: 'Controle de Terceiros' },
+        { id: 's7', text: 'Dados pessoais seguem LGPD?', category: 'Proteção de Dados' },
+        { id: 's8', text: 'Inventário de dados sensíveis é atualizado?', category: 'Classificação de Dados' },
+        { id: 's9', text: 'O descarte de informações é seguro?', category: 'Gestão de Dados' },
+        { id: 's10', text: 'Logs de segurança são analisados?', category: 'Monitoramento' },
+        { id: 's11', text: 'Há processo de resposta a incidentes?', category: 'Gestão de Incidentes' },
+        { id: 's12', text: 'Incidentes são registrados e avaliados?', category: 'Gestão de Incidentes' },
+        { id: 's13', text: 'Vulnerabilidades são verificadas periodicamente?', category: 'Gestão de Vulnerabilidades' },
+        { id: 's14', text: 'Sistemas desatualizados são corrigidos rapidamente?', category: 'Gestão de Patches' },
+        { id: 's15', text: 'Firewalls estão configurados adequadamente?', category: 'Segurança de Rede' },
+        { id: 's16', text: 'Dispositivos externos são bloqueados ou controlados?', category: 'Controle de Dispositivos' },
+        { id: 's17', text: 'Há proteção contra softwares maliciosos?', category: 'Proteção contra Malware' },
+        { id: 's18', text: 'Fornecedores em nuvem são avaliados?', category: 'Segurança em Nuvem' },
+        { id: 's19', text: 'Ambientes em nuvem possuem configurações auditáveis?', category: 'Segurança em Nuvem' },
+        { id: 's20', text: 'Segurança segue boas práticas ISO 27001?', category: 'Padrões ISO' },
+        { id: 's21', text: 'Auditorias internas de segurança são realizadas?', category: 'Auditoria' },
+        { id: 's22', text: 'Segurança participa de planos de continuidade?', category: 'Continuidade' },
+        { id: 's23', text: 'Mecanismos de recuperação garantem proteção de dados?', category: 'Recuperação' },
+        { id: 's24', text: 'Perfis de usuário são revisados periodicamente?', category: 'Revisão de Acesso' },
+        { id: 's25', text: 'Contas inativas são removidas rapidamente?', category: 'Gestão de Contas' }
       ]
     }
   ];

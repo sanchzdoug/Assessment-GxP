@@ -170,6 +170,9 @@ frontend:
         - working: true
         - agent: "testing"
         - comment: "✅ PASSED - NEW FEATURE TESTED: 'Seleção de Sistemas' tab is implemented and working correctly. Tab is default active tab, displays 24 predefined systems in structured table with proper headers (Selecionado, Processo de Negócio, Sistema, Descrição, etc.). Search functionality works (tested with 'SAP', 'TrackWise'), filter functionality works (tested ERP filter), table shows systems with business process categories, descriptions, and cost fields. Summary section present. 'Salvar e Continuar' button successfully redirects to reports page. Interface matches requirements with proper Portuguese labels and professional layout."
+        - working: true
+        - agent: "testing"
+        - comment: "✅ PASSED - SISTEMA CUSTOMIZADO FEATURE TESTED (Jan 2025): Custom system functionality is fully working. 'Sistema Customizado' button is visible and clickable in 'Seleção de Sistemas' tab. Dialog opens correctly with proper title 'Adicionar Sistema Customizado'. All form fields are functional: Nome do Sistema (required), Tipo dropdown with system types, Processo de Negócio (required), Fornecedor (required), and Descrição (optional). Form validation works correctly - shows error message for missing required fields. Successful submission shows success message 'Sistema customizado adicionado à lista de seleção com sucesso!' and dialog closes properly. Feature is production-ready with excellent UX."
 
   - task: "Reports Page Testing"
     implemented: true

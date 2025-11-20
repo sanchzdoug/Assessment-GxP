@@ -62,9 +62,6 @@ const LandingPage = () => {
             <a href="#industries" className="text-muted-foreground hover:text-foreground transition-smooth">
               Industries
             </a>
-            <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-smooth">
-              Testimonials
-            </a>
           </div>
           <div className="flex items-center gap-4">
             <Link to="/dashboard">

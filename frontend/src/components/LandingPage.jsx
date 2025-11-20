@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle, Shield, BarChart3, Users, ArrowRight, Award, BookOpen, Target, Star } from 'lucide-react';
+import { CheckCircle, Shield, BarChart3, Users, ArrowRight, Award, BookOpen, Target } from 'lucide-react';
 
 const LandingPage = () => {
   const features = [

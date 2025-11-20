@@ -109,6 +109,7 @@ const SystemsInventory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showCustomSystemDialog, setShowCustomSystemDialog] = useState(false);
   const [newSystem, setNewSystem] = useState({
     name: '',
     type: '',
@@ -121,6 +122,13 @@ const SystemsInventory = () => {
     supportCost: '',
     infrastructureCost: '',
     gxpCritical: false
+  });
+  const [customSystem, setCustomSystem] = useState({
+    name: '',
+    type: '',
+    process: '',
+    vendor: '',
+    description: ''
   });
 
   const systemTypes = [

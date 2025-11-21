@@ -1313,14 +1313,27 @@ const ReportsPage = () => {
         const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
-        const currentDate = new Date().toLocaleDateString('pt-BR', { 
-          day: '2-digit', 
-          month: 'long', 
-          year: 'numeric' 
-        });
         const filename = `Relatorio_Assessment_Completo.pdf`;
         
-        console.log('📄 Iniciando captura de TODAS as abas do relatório...');
+        console.log('📄 Gerando PDF completo com todo o conteúdo HTML estruturado...');
+        
+        // Generate complete HTML content with all sections
+        const fullContent = generateCompletePDFContent();
+        
+        // Create temporary container
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = fullContent;
+        tempDiv.style.position = 'fixed';
+        tempDiv.style.left = '-99999px';
+        tempDiv.style.top = '0';
+        tempDiv.style.width = '210mm';
+        tempDiv.style.backgroundColor = '#ffffff';
+        document.body.appendChild(tempDiv);
+        
+        console.log('✅ HTML completo gerado, iniciando conversão para PDF...');
+        
+        // Wait for rendering
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
         // Create PDF
         const pdf = new jsPDF({
@@ -1332,159 +1345,53 @@ const ReportsPage = () => {
         
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        let currentPage = 0;
         
-        // Helper function to add header and footer
-        const addHeaderFooter = (pageNum) => {
-          // Header
-          pdf.setFontSize(10);
-          pdf.setTextColor(30, 64, 175);
-          pdf.text('SoftExpert - Relatório de Assessment GxP', pageWidth / 2, 10, { align: 'center' });
-          
-          // Footer
-          pdf.setFontSize(8);
-          pdf.setTextColor(128, 128, 128);
-          pdf.text(`Página ${pageNum}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
-          pdf.text('Relatório de Assessment de Compliance GxP – Gerado automaticamente', pageWidth / 2, pageHeight - 6, { align: 'center' });
-        };
+        // Capture entire content as high-res canvas
+        const canvas = await html2canvas(tempDiv, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+          windowWidth: 794,
+          width: tempDiv.scrollWidth,
+          height: tempDiv.scrollHeight
+        });
         
-        // CAPA
-        currentPage++;
-        pdf.setFontSize(28);
-        pdf.setTextColor(30, 64, 175);
-        pdf.text('SoftExpert', pageWidth / 2, 40, { align: 'center' });
+        console.log(`✅ Canvas capturado: ${canvas.width}x${canvas.height}px`);
         
-        pdf.setFontSize(20);
-        pdf.text('Relatório de Assessment de', pageWidth / 2, 60, { align: 'center' });
-        pdf.text('Compliance GxP', pageWidth / 2, 70, { align: 'center' });
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgWidth = pageWidth - 20; // 10mm margins on each side
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
         
-        pdf.setFontSize(14);
-        pdf.setTextColor(100, 100, 100);
-        pdf.text(companyName, pageWidth / 2, 90, { align: 'center' });
-        pdf.text(currentDate, pageWidth / 2, 100, { align: 'center' });
+        // Add pages and split content
+        let heightLeft = imgHeight;
+        let position = 10;
+        let pageCount = 1;
         
-        addHeaderFooter(currentPage);
+        // Add first page
+        pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
+        heightLeft -= (pageHeight - 20);
         
-        // SUMÁRIO EXECUTIVO
-        pdf.addPage();
-        currentPage++;
-        addHeaderFooter(currentPage);
-        
-        pdf.setFontSize(16);
-        pdf.setTextColor(30, 64, 175);
-        pdf.text('Sumário Executivo', 20, 30);
-        
-        pdf.setFontSize(11);
-        pdf.setTextColor(0, 0, 0);
-        let yPos = 45;
-        
-        pdf.text(`Score Geral de Compliance: ${Math.round(reportData.overallScore)}%`, 25, yPos);
-        yPos += 10;
-        pdf.text(`Áreas Avaliadas: ${reportData.areaScores?.length || 0}`, 25, yPos);
-        yPos += 10;
-        pdf.text(`Gaps Críticos: ${reportData.criticalGaps?.length || 0}`, 25, yPos);
-        yPos += 10;
-        pdf.text(`Investimento Anual em TI: ${formatCurrency(reportData.systemsCost?.totalAnnual || 0)}`, 25, yPos);
-        
-        // Now navigate through all tabs and capture content
-        const tabs = ['scores', 'gaps', 'compliance', 'systems', 'recommendations'];
-        const tabNames = {
-          'scores': 'Capítulo 1 - Scores por Área',
-          'gaps': 'Capítulo 2 - Gaps Críticos',
-          'compliance': 'Capítulo 3 - Regulatório',
-          'systems': 'Capítulo 4 - Sistemas & Custos',
-          'recommendations': 'Capítulo 5 - Recomendações'
-        };
-        
-        for (let i = 0; i < tabs.length; i++) {
-          const tabValue = tabs[i];
-          const tabName = tabNames[tabValue];
-          
-          console.log(`📑 Capturando aba: ${tabName}`);
-          toast.success(`Capturando: ${tabName}...`);
-          
-          // Click on the tab to make it active
-          const tabButton = document.querySelector(`[value="${tabValue}"]`);
-          if (tabButton) {
-            tabButton.click();
-            
-            // Wait for content to load
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Get the tab content
-            const tabContent = document.querySelector(`[data-state="active"][role="tabpanel"]`);
-            
-            if (tabContent) {
-              // Capture the tab content as canvas
-              const canvas = await html2canvas(tabContent, {
-                scale: 2,
-                useCORS: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                windowWidth: 1200
-              });
-              
-              const imgData = canvas.toDataURL('image/jpeg', 0.95);
-              const imgWidth = pageWidth - 40; // margins
-              const imgHeight = (canvas.height * imgWidth) / canvas.width;
-              
-              // Add new page for chapter
-              pdf.addPage();
-              currentPage++;
-              addHeaderFooter(currentPage);
-              
-              // Add chapter title
-              pdf.setFontSize(16);
-              pdf.setTextColor(30, 64, 175);
-              pdf.text(tabName, 20, 30);
-              
-              // Add captured image
-              let yPosition = 40;
-              let remainingHeight = imgHeight;
-              
-              while (remainingHeight > 0) {
-                const availableHeight = pageHeight - yPosition - 20;
-                
-                if (remainingHeight <= availableHeight) {
-                  // Image fits on current page
-                  pdf.addImage(imgData, 'JPEG', 20, yPosition, imgWidth, remainingHeight);
-                  break;
-                } else {
-                  // Image needs multiple pages
-                  const heightToAdd = availableHeight;
-                  const sourceY = (imgHeight - remainingHeight) * (canvas.height / imgHeight);
-                  const sourceHeight = heightToAdd * (canvas.height / imgHeight);
-                  
-                  // Create a temporary canvas for the slice
-                  const tempCanvas = document.createElement('canvas');
-                  tempCanvas.width = canvas.width;
-                  tempCanvas.height = sourceHeight;
-                  const tempCtx = tempCanvas.getContext('2d');
-                  tempCtx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
-                  
-                  const sliceData = tempCanvas.toDataURL('image/jpeg', 0.95);
-                  pdf.addImage(sliceData, 'JPEG', 20, yPosition, imgWidth, heightToAdd);
-                  
-                  remainingHeight -= heightToAdd;
-                  
-                  if (remainingHeight > 0) {
-                    pdf.addPage();
-                    currentPage++;
-                    addHeaderFooter(currentPage);
-                    yPosition = 20;
-                  }
-                }
-              }
-            }
-          }
+        // Add subsequent pages if content doesn't fit
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight + 10;
+          pdf.addPage();
+          pageCount++;
+          pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
+          heightLeft -= (pageHeight - 20);
         }
         
-        console.log('✅ PDF completo gerado com TODAS as abas!');
+        console.log(`✅ PDF gerado com ${pageCount} páginas!`);
         
-        // Save the PDF
+        // Clean up
+        if (tempDiv && tempDiv.parentNode) {
+          document.body.removeChild(tempDiv);
+        }
+        
+        // Save PDF
         pdf.save(filename);
         
-        toast.success(`✅ Relatório Completo Baixado!\n\n${filename}\n\nTodas as 5 abas foram incluídas em ${currentPage} páginas.`, {
+        toast.success(`✅ Relatório Completo Baixado!\n\n${filename}\n\n${pageCount} páginas com TODAS as seções incluídas.`, {
           duration: 8000
         });
         

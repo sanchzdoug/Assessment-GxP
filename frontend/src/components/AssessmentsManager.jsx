@@ -18,90 +18,68 @@ const AssessmentsManager = () => {
   const [userRole, setUserRole] = useState('admin'); // 'admin' or 'company'
   const [currentCompany, setCurrentCompany] = useState(null);
 
-  // Mock data for assessments
+  // Load real assessments data
   useEffect(() => {
-    const mockAssessments = [
-      {
-        id: 1,
-        companyName: "BioPharma Solutions",
-        companySegment: "Pharmaceutical",
-        assessmentDate: "2024-12-15",
-        completionDate: "2024-12-20",
-        status: "completed",
-        overallScore: 78,
-        areasCompleted: 12,
-        totalAreas: 12,
-        lastUpdated: "2024-12-20T10:30:00Z",
-        assessor: "Dr. Maria Silva",
-        companyId: "comp_001"
-      },
-      {
-        id: 2,
-        companyName: "MedTech Innovations",
-        companySegment: "Medical Devices",
-        assessmentDate: "2024-12-10",
-        completionDate: null,
-        status: "in_progress",
-        overallScore: 65,
-        areasCompleted: 8,
-        totalAreas: 12,
-        lastUpdated: "2024-12-22T15:45:00Z",
-        assessor: "João Santos",
-        companyId: "comp_002"
-      },
-      {
-        id: 3,
-        companyName: "VetCare Pharma",
-        companySegment: "Veterinary",
-        assessmentDate: "2024-12-01",
-        completionDate: "2024-12-05",
-        status: "completed",
-        overallScore: 82,
-        areasCompleted: 12,
-        totalAreas: 12,
-        lastUpdated: "2024-12-05T09:15:00Z",
-        assessor: "Ana Costa",
-        companyId: "comp_003"
-      },
-      {
-        id: 4,
-        companyName: "CosmeticTech Brasil",
-        companySegment: "Cosmetics",
-        assessmentDate: "2024-11-28",
-        completionDate: null,
-        status: "draft",
-        overallScore: 0,
-        areasCompleted: 2,
-        totalAreas: 12,
-        lastUpdated: "2024-11-30T14:20:00Z",
-        assessor: "Carlos Mendes",
-        companyId: "comp_004"
-      },
-      {
-        id: 5,
-        companyName: "BioTech Research",
-        companySegment: "Biotechnology",
-        assessmentDate: "2024-12-18",
-        completionDate: "2024-12-23",
-        status: "completed",
-        overallScore: 91,
-        areasCompleted: 12,
-        totalAreas: 12,
-        lastUpdated: "2024-12-23T11:00:00Z",
-        assessor: "Dra. Patricia Lima",
-        companyId: "comp_005"
-      }
-    ];
+    const loadAssessments = () => {
+      // Get real assessments from localStorage
+      const realAssessments = JSON.parse(localStorage.getItem('assessmentsList') || '[]');
+      
+      // Add some demo data if no real assessments exist
+      const demoAssessments = realAssessments.length === 0 ? [
+        {
+          id: 'demo_1',
+          companyName: "Demo BioPharma Solutions",
+          companySegment: "Pharmaceutical",
+          assessmentDate: "2024-12-15",
+          completionDate: "2024-12-20",
+          status: "completed",
+          overallScore: 78,
+          areasCompleted: 12,
+          totalAreas: 12,
+          lastUpdated: "2024-12-20T10:30:00Z",
+          assessor: "Sistema Demo",
+          companyId: "demo_comp_001"
+        },
+        {
+          id: 'demo_2',
+          companyName: "Demo MedTech Innovations",
+          companySegment: "Medical Devices",
+          assessmentDate: "2024-12-10",
+          completionDate: null,
+          status: "in_progress",
+          overallScore: 65,
+          areasCompleted: 8,
+          totalAreas: 12,
+          lastUpdated: "2024-12-22T15:45:00Z",
+          assessor: "Sistema Demo",
+          companyId: "demo_comp_002"
+        }
+      ] : [];
 
-    // If user is company, filter to show only their assessments
-    if (userRole === 'company') {
-      const companyAssessments = mockAssessments.filter(assessment => 
-        assessment.companyId === currentCompany?.id
-      );
-      setAssessments(companyAssessments);
-    } else {
-      setAssessments(mockAssessments);
-    }
+      const allAssessments = [...realAssessments, ...demoAssessments];
+
+      // If user is company, filter to show only their assessments
+      if (userRole === 'company') {
+        const companyAssessments = allAssessments.filter(assessment => 
+          assessment.companyId === currentCompany?.id
+        );
+        setAssessments(companyAssessments);
+      } else {
+        setAssessments(allAssessments);
+      }
+    };
+
+    loadAssessments();
+    
+    // Listen for new assessments
+    const handleStorageChange = (e) => {
+      if (e.key === 'assessmentsList') {
+        loadAssessments();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [userRole, currentCompany]);
 
   const filteredAssessments = assessments.filter(assessment => {

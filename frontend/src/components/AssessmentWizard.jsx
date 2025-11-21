@@ -511,10 +511,9 @@ const AssessmentWizard = () => {
         };
       });
 
-      // Calculate overall score
+      // Calculate overall score (weighted average)
       const totalWeightedScore = areaScores.reduce((sum, area) => sum + (area.score * area.weight / 100), 0);
-      const totalWeight = areaScores.reduce((sum, area) => sum + area.weight, 0);
-      const overallScore = Math.round(totalWeightedScore / totalWeight);
+      const overallScore = Math.round(totalWeightedScore);
 
       // Get company data
       const companyData = JSON.parse(localStorage.getItem('companyData') || '{}');

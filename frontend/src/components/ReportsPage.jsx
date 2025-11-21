@@ -210,19 +210,59 @@ const ReportsPage = () => {
       recommendations: [
         {
           priority: "High",
-          category: "Técnica",
-          title: "Melhorar Áreas com Score Baixo",
-          description: `Focar nas áreas com pontuação inferior a 70% para melhorar o compliance geral.`,
+          category: "Compliance Regulatório",
+          title: "Implementar Controles de Integridade de Dados (ALCOA+)",
+          description: "Estabelecer procedimentos robustos para garantir que todos os dados críticos sejam Atribuíveis, Legíveis, Contemporâneos, Originais, Acurados, Completos, Consistentes, Duradouros e Disponíveis.",
           timeline: "3-6 meses",
+          effort: "Alto"
+        },
+        {
+          priority: "High",
+          category: "Validação de Sistemas",
+          title: "Completar Validação de Sistemas GxP Críticos",
+          description: "Executar validação completa (IQ/OQ/PQ) para todos os sistemas que impactam a qualidade do produto, incluindo trilhas de auditoria e controles de acesso adequados.",
+          timeline: "4-8 meses",
+          effort: "Alto"
+        },
+        {
+          priority: "Medium",
+          category: "Gestão da Qualidade",
+          title: "Implementar Sistema de Gestão de Riscos da Qualidade",
+          description: "Desenvolver metodologia formal de gestão de riscos (ICH Q9) para identificar, avaliar e controlar riscos que possam impactar a qualidade do produto.",
+          timeline: "2-4 meses",
           effort: "Médio"
         },
         {
           priority: "Medium",
-          category: "Processual",
-          title: "Padronizar Processos GxP",
-          description: "Implementar procedimentos padronizados em todas as áreas avaliadas.",
+          category: "Documentação",
+          title: "Digitalizar e Padronizar Documentação GxP",
+          description: "Migrar documentação crítica para formato eletrônico com controles de versão, assinaturas eletrônicas e trilhas de auditoria completas.",
           timeline: "6-12 meses",
           effort: "Alto"
+        },
+        {
+          priority: "Medium",
+          category: "Treinamento",
+          title: "Estabelecer Programa de Capacitação Contínua",
+          description: "Criar matriz de competências por função e implementar programa de treinamentos recorrentes em GxP, com avaliações obrigatórias e controle de vencimentos.",
+          timeline: "2-6 meses",
+          effort: "Médio"
+        },
+        {
+          priority: "Low",
+          category: "Melhoria Contínua",
+          title: "Implementar Indicadores de Performance de Qualidade",
+          description: "Estabelecer KPIs para monitorar eficácia do sistema de qualidade, incluindo métricas de desvios, CAPAs, auditorias e treinamentos.",
+          timeline: "1-3 meses",
+          effort: "Baixo"
+        },
+        {
+          priority: "Low",
+          category: "Auditoria",
+          title: "Fortalecer Programa de Auditorias Internas",
+          description: "Expandir programa de auditorias internas para cobrir todos os processos GxP com frequência adequada, incluindo auditorias de fornecedores críticos.",
+          timeline: "2-4 meses",
+          effort: "Médio"
         }
       ]
     };

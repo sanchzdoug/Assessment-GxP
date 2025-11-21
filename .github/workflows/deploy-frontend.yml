@@ -1,5 +1,5 @@
 name: Deploy Frontend to GitHub Pages
-
+run: npm install
 on:
   push:
     branches: [ "main" ]

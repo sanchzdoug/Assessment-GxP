@@ -254,27 +254,27 @@ const ReportsPage = () => {
       criticalGaps: [],
       regulatoryCompliance: {
         "21 CFR Part 11": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - Math.random() * 20)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - 8))), 
           gaps: (assessmentResults.overallScore || 0) < 70 ? 3 : (assessmentResults.overallScore || 0) < 85 ? 2 : 1
         },
         "EU GMP Annex 11": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - Math.random() * 15)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - 5))), 
           gaps: (assessmentResults.overallScore || 0) < 75 ? 2 : (assessmentResults.overallScore || 0) < 90 ? 1 : 0
         },
         "RDC 658/2022": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - Math.random() * 25)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - 12))), 
           gaps: (assessmentResults.overallScore || 0) < 65 ? 4 : (assessmentResults.overallScore || 0) < 80 ? 3 : 1
         },
         "IN 134/2022": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) + Math.random() * 10)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) + 5))), 
           gaps: (assessmentResults.overallScore || 0) < 60 ? 2 : (assessmentResults.overallScore || 0) < 85 ? 1 : 0
         },
         "IN 138/2022": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - Math.random() * 12)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - 6))), 
           gaps: (assessmentResults.overallScore || 0) < 70 ? 2 : (assessmentResults.overallScore || 0) < 88 ? 1 : 0
         },
         "ALCOA+": { 
-          score: Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - Math.random() * 18)), 
+          score: Math.round(Math.min(100, Math.max(0, (assessmentResults.overallScore || 0) - 10))), 
           gaps: (assessmentResults.overallScore || 0) < 68 ? 3 : (assessmentResults.overallScore || 0) < 83 ? 2 : 1
         }
       },

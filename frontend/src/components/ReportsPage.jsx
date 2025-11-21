@@ -924,6 +924,132 @@ const ReportsPage = () => {
           </Card>
         </div>
       </div>
+
+      {/* Gap Details Dialog */}
+      <Dialog open={showGapDetails} onOpenChange={setShowGapDetails}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5" />
+              Detalhes do Gap Crítico
+            </DialogTitle>
+            <DialogDescription>
+              Informações detalhadas sobre o gap identificado e plano de ação
+            </DialogDescription>
+          </DialogHeader>
+          
+          {selectedGap && (
+            <div className="space-y-6">
+              {/* Gap Overview */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{selectedGap.area}</Badge>
+                  <Badge className={`${getRiskColor(selectedGap.risk)}`}>
+                    {selectedGap.risk} Risk
+                  </Badge>
+                  <Badge variant="outline">{selectedGap.regulation}</Badge>
+                </div>
+                <h3 className="font-semibold text-lg">{selectedGap.gap}</h3>
+                <p className="text-muted-foreground">{selectedGap.recommendation}</p>
+              </div>
+
+              {/* Detailed Information */}
+              {selectedGap.details && (
+                <div className="grid md:grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-sm">Informações do Gap</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      {selectedGap.details.questionId && (
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Questão:</span>
+                          <span className="text-sm font-medium">{selectedGap.details.questionId}</span>
+                        </div>
+                      )}
+                      {selectedGap.details.score !== undefined && (
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Score:</span>
+                          <span className="text-sm font-medium">
+                            {selectedGap.details.score}/{selectedGap.details.maxScore || 5}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Nível de Impacto:</span>
+                        <span className="text-sm font-medium">{selectedGap.details.impactLevel}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Timeline:</span>
+                        <span className="text-sm font-medium">{selectedGap.details.timeline}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <Card>
+                    <CardHeader className="pb-3">
+                      <CardTitle className="text-sm">Responsabilidades</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-sm text-muted-foreground">Responsável:</span>
+                        <span className="text-sm font-medium">{selectedGap.details.responsible}</span>
+                      </div>
+                      <div>
+                        <span className="text-sm text-muted-foreground">Recursos:</span>
+                        <p className="text-sm font-medium mt-1">{selectedGap.details.resources}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+
+              {/* Action Plan */}
+              {selectedGap.details?.actions && (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-sm">Plano de Ação</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {selectedGap.details.actions.map((action, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0" />
+                          <span className="text-sm">{action}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Target Information */}
+              {selectedGap.details?.target && (
+                <Card className="bg-muted/30">
+                  <CardContent className="pt-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Meta de Compliance</p>
+                        <p className="text-lg font-semibold">{selectedGap.details.target}%</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Score Atual</p>
+                        <p className="text-lg font-semibold">{selectedGap.details.score}%</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Gap</p>
+                        <p className="text-lg font-semibold text-destructive">
+                          {selectedGap.details.target - selectedGap.details.score}%
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

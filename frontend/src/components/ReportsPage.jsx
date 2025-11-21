@@ -1082,30 +1082,30 @@ const ReportsPage = () => {
                   <div className={`text-4xl font-bold ${getScoreColor(reportData.overallScore)}`}>
                     {reportData.overallScore}%
                   </div>
-                  <div className="text-sm text-muted-foreground">Overall Compliance Score</div>
+                  <div className="text-sm text-muted-foreground">Score Geral de Compliance</div>
                   <Progress value={reportData.overallScore} className="h-2" />
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-4xl font-bold text-foreground">{reportData.areaScores.length}</div>
-                  <div className="text-sm text-muted-foreground">Areas Assessed</div>
+                  <div className="text-sm text-muted-foreground">Áreas Avaliadas</div>
                   <div className="text-xs text-success">
-                    {reportData.areaScores.filter(a => a.status === 'excellent').length} Excellent
+                    {reportData.areaScores.filter(a => a.status === 'excellent').length} Excelente
                   </div>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-4xl font-bold text-destructive">{reportData.criticalGaps.length}</div>
-                  <div className="text-sm text-muted-foreground">Critical Gaps</div>
+                  <div className="text-sm text-muted-foreground">Gaps Críticos</div>
                   <div className="text-xs text-warning">
-                    {reportData.criticalGaps.filter(g => g.risk === 'High').length} High Risk
+                    {reportData.criticalGaps.filter(g => g.risk === 'High').length} Alto Risco
                   </div>
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-4xl font-bold text-primary">
                     {formatCurrency(reportData.systemsCost.totalAnnual)}
                   </div>
-                  <div className="text-sm text-muted-foreground">Annual IT Investment</div>
+                  <div className="text-sm text-muted-foreground">Investimento Anual em TI</div>
                   <div className="text-xs text-muted-foreground">
-                    {reportData.systemsCost.gxpSystems} GxP Systems
+                    {reportData.systemsCost.gxpSystems} Sistemas GxP
                   </div>
                 </div>
               </div>

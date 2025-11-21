@@ -83,7 +83,7 @@ const CompanyRegistration = () => {
       <nav className="px-6 py-4 backdrop-blur-xl bg-white/90 border-b border-border/50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <Shield className="h-8 w-8 text-primary" />
+            
             <img src="/softexpert-logo.svg" alt="SoftExpert" className="h-8" />
           </Link>
           <Link to="/">

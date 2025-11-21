@@ -1303,10 +1303,12 @@ const ReportsPage = () => {
         return;
       }
 
-      toast.success("🚀 Gerando Relatório Completo em PDF... Por favor aguarde (isso pode levar alguns segundos).");
+      toast.success("🚀 Gerando Relatório Completo em PDF... Por favor aguarde.");
       
       try {
-        const html2pdf = (await import('html2pdf.js')).default;
+        // Import jsPDF and html2canvas directly (no sandbox issues)
+        const { jsPDF } = await import('jspdf');
+        const html2canvas = (await import('html2canvas')).default;
         
         const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
@@ -1319,41 +1321,71 @@ const ReportsPage = () => {
         // Create temporary container
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = fullContent;
-        tempDiv.style.position = 'absolute';
+        tempDiv.style.position = 'fixed';
         tempDiv.style.left = '-99999px';
         tempDiv.style.top = '0';
         tempDiv.style.width = '210mm';
+        tempDiv.style.padding = '0';
+        tempDiv.style.margin = '0';
+        tempDiv.style.backgroundColor = '#ffffff';
         document.body.appendChild(tempDiv);
         
-        // PDF configuration for complete report
-        const opt = {
-          margin: [15, 10, 20, 10],
-          filename: filename,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: { 
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff',
-            windowWidth: 794
-          },
-          jsPDF: { 
-            unit: 'mm', 
-            format: 'a4', 
-            orientation: 'portrait'
-          },
-          pagebreak: { 
-            mode: ['avoid-all', 'css', 'legacy'],
-            after: '.page-break'
-          }
-        };
-
         console.log('📄 Iniciando geração do PDF completo estruturado...');
         
-        // Generate PDF
-        await html2pdf().set(opt).from(tempDiv).save();
+        // Wait for content to render
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Create PDF using jsPDF directly
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+          compress: true
+        });
+        
+        // Get all page-break elements
+        const pages = tempDiv.querySelectorAll('.page-break');
+        const allContent = tempDiv.querySelectorAll('.section, .page-break');
+        
+        let yOffset = 0;
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        
+        // Capture the entire content as canvas
+        const canvas = await html2canvas(tempDiv, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+          windowWidth: 794,
+          width: tempDiv.scrollWidth,
+          height: tempDiv.scrollHeight
+        });
+        
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const imgWidth = pageWidth - 20; // margins
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        // Add image to PDF with pagination
+        let position = 10;
+        let remainingHeight = imgHeight;
+        
+        while (remainingHeight > 0) {
+          pdf.addImage(imgData, 'JPEG', 10, position, imgWidth, imgHeight);
+          
+          remainingHeight -= (pageHeight - 30); // account for margins
+          position -= (pageHeight - 30);
+          
+          if (remainingHeight > 0) {
+            pdf.addPage();
+            position = 10;
+          }
+        }
         
         console.log('✅ PDF completo gerado com sucesso!');
+        
+        // Save the PDF (no sandbox issues!)
+        pdf.save(filename);
         
         // Clean up
         setTimeout(() => {
@@ -1362,8 +1394,8 @@ const ReportsPage = () => {
           }
         }, 1000);
         
-        toast.success(`✅ Relatório Completo Baixado com Sucesso!\n\nArquivo: ${filename}\n\nO PDF contém todas as 7 seções estruturadas com dados completos.`, {
-          duration: 6000
+        toast.success(`✅ Relatório Completo Baixado!\n\nArquivo: ${filename}`, {
+          duration: 5000
         });
         
       } catch (pdfError) {

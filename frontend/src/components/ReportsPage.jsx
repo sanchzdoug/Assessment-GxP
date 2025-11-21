@@ -1313,25 +1313,25 @@ const ReportsPage = () => {
                         <div className="text-2xl font-bold text-foreground">
                           {reportData.systemsCost.totalSystems}
                         </div>
-                        <div className="text-sm text-muted-foreground">Total Systems</div>
+                        <div className="text-sm text-muted-foreground">Total de Sistemas</div>
                       </div>
                       <div className="text-center p-4 bg-muted/30 rounded-lg">
                         <div className="text-2xl font-bold text-success">
                           {reportData.systemsCost.gxpSystems}
                         </div>
-                        <div className="text-sm text-muted-foreground">GxP Critical</div>
+                        <div className="text-sm text-muted-foreground">GxP Críticos</div>
                       </div>
                       <div className="text-center p-4 bg-muted/30 rounded-lg">
                         <div className="text-2xl font-bold text-foreground">
                           {reportData.systemsCost.totalUsers.toLocaleString()}
                         </div>
-                        <div className="text-sm text-muted-foreground">Total Users</div>
+                        <div className="text-sm text-muted-foreground">Total de Usuários</div>
                       </div>
                       <div className="text-center p-4 bg-muted/30 rounded-lg">
                         <div className="text-2xl font-bold text-primary">
                           {formatCurrency(Math.round(reportData.systemsCost.totalAnnual / reportData.systemsCost.totalUsers))}
                         </div>
-                        <div className="text-sm text-muted-foreground">Cost/User/Year</div>
+                        <div className="text-sm text-muted-foreground">Custo/Usuário/Ano</div>
                       </div>
                     </div>
                   </CardContent>

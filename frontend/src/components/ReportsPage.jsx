@@ -347,18 +347,59 @@ const ReportsPage = () => {
       ]
     };
     
-    // Generate critical gaps based on low scores
-    assessmentResults.areaScores?.forEach(area => {
-      if (area.score < 60) {
-        realReportData.criticalGaps.push({
-          area: area.area,
-          gap: `Pontuação baixa identificada: ${area.score}%`,
-          regulation: "Requisitos GxP Gerais",
-          risk: area.score < 40 ? "High" : "Medium",
-          recommendation: `Implementar melhorias nos processos de ${area.area.toLowerCase()}`
+    // Generate detailed critical gaps based on assessment responses
+    if (assessmentResults.responses) {
+      Object.entries(assessmentResults.responses).forEach(([areaId, responses]) => {
+        const area = assessmentResults.areaScores?.find(a => a.area.toLowerCase().includes(areaId));
+        const areaName = area?.area || areaId;
+        
+        Object.entries(responses).forEach(([questionId, score]) => {
+          if (score < 3) { // Critical issues (score 0-2)
+            realReportData.criticalGaps.push({
+              area: areaName,
+              gap: `Processo não implementado adequadamente (Questão ${questionId})`,
+              regulation: getRegulationByArea(areaId),
+              risk: score === 0 ? "High" : score === 1 ? "High" : "Medium",
+              recommendation: getRecommendationByArea(areaId, score),
+              details: {
+                questionId,
+                score,
+                maxScore: 5,
+                impactLevel: score === 0 ? "Crítico" : score === 1 ? "Alto" : "Moderado",
+                actions: getActionsByScore(score),
+                timeline: score === 0 ? "Imediato" : score === 1 ? "1-3 meses" : "3-6 meses",
+                responsible: getResponsibleByArea(areaId),
+                resources: getResourcesByArea(areaId)
+              }
+            });
+          }
         });
-      }
-    });
+      });
+    }
+    
+    // Add some general gaps if no specific gaps found
+    if (realReportData.criticalGaps.length === 0) {
+      assessmentResults.areaScores?.forEach(area => {
+        if (area.score < 70) {
+          realReportData.criticalGaps.push({
+            area: area.area,
+            gap: `Score abaixo do mínimo regulatório: ${area.score}%`,
+            regulation: "Requisitos GxP Gerais",
+            risk: area.score < 50 ? "High" : "Medium",
+            recommendation: `Implementar melhorias estruturais em ${area.area}`,
+            details: {
+              score: area.score,
+              target: 85,
+              impactLevel: area.score < 50 ? "Crítico" : "Alto",
+              actions: ["Revisar procedimentos", "Treinar equipe", "Implementar controles"],
+              timeline: area.score < 50 ? "1-3 meses" : "3-6 meses",
+              responsible: "Gerente da Qualidade",
+              resources: "Equipe interna + consultoria externa"
+            }
+          });
+        }
+      });
+    }
     
     setReportData(realReportData);
     toast.success("Relatório do assessment gerado com sucesso");

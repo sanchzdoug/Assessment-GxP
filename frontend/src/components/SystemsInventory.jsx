@@ -141,8 +141,8 @@ const SystemsInventory = () => {
     version: '',
     deployment: 'cloud',
     users: '',
-    monthlyCost: '',
-    supportCost: '',
+    monthlyCost: 0,
+    supportCost: 0,
     infrastructureCost: '',
     gxpCritical: false
   });

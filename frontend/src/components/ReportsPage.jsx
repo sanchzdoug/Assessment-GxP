@@ -848,8 +848,8 @@ const ReportsPage = () => {
               {/* Detailed Systems List */}
               <Card>
                 <CardHeader>
-                  <CardTitle className=\"flex items-center gap-2\">
-                    <Server className=\"h-5 w-5\" />
+                  <CardTitle className="flex items-center gap-2">
+                    <Server className="h-5 w-5" />
                     Sistemas Implementados - Análise Detalhada
                   </CardTitle>
                   <CardDescription>
@@ -858,64 +858,64 @@ const ReportsPage = () => {
                 </CardHeader>
                 <CardContent>
                   {JSON.parse(localStorage.getItem('systemsInventory') || '[]').length > 0 ? (
-                    <div className=\"space-y-4\">
+                    <div className="space-y-4">
                       {JSON.parse(localStorage.getItem('systemsInventory') || '[]').map((system, index) => (
-                        <div key={index} className=\"border border-border rounded-lg p-4 hover:bg-muted/30 transition-colors\">
-                          <div className=\"flex items-start justify-between mb-3\">
-                            <div className=\"flex-1\">
-                              <div className=\"flex items-center gap-2 mb-2\">
-                                <h4 className=\"font-semibold text-foreground\">{system.name}</h4>
-                                <Badge variant=\"outline\" className=\"text-xs\">{system.type}</Badge>
+                        <div key={index} className="border border-border rounded-lg p-4 hover:bg-muted/30 transition-colors">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <h4 className="font-semibold text-foreground">{system.name}</h4>
+                                <Badge variant="outline" className="text-xs">{system.type}</Badge>
                                 {system.gxpCritical && (
-                                  <Badge className=\"bg-success-light text-success border-success/20 text-xs\">
+                                  <Badge className="bg-success-light text-success border-success/20 text-xs">
                                     GxP Crítico
                                   </Badge>
                                 )}
                               </div>
-                              <p className=\"text-sm text-muted-foreground mb-2\">
+                              <p className="text-sm text-muted-foreground mb-2">
                                 <strong>Fabricante:</strong> {system.vendor} • <strong>Versão:</strong> {system.version || 'N/A'}
                               </p>
-                              <p className=\"text-sm text-muted-foreground\">
+                              <p className="text-sm text-muted-foreground">
                                 <strong>Categoria:</strong> {system.category} • <strong>Implantação:</strong> {system.deployment === 'cloud' ? 'Nuvem' : 'Local'}
                               </p>
                             </div>
-                            <div className=\"text-right\">
-                              <div className=\"text-lg font-bold text-foreground\">
+                            <div className="text-right">
+                              <div className="text-lg font-bold text-foreground">
                                 {formatCurrency((system.monthlyCost * 12) + system.supportCost + system.infrastructureCost)}
                               </div>
-                              <div className=\"text-xs text-muted-foreground\">Custo total anual</div>
+                              <div className="text-xs text-muted-foreground">Custo total anual</div>
                             </div>
                           </div>
                           
-                          <div className=\"grid grid-cols-1 md:grid-cols-4 gap-3 text-sm\">
-                            <div className=\"space-y-1\">
-                              <span className=\"text-muted-foreground\">Usuários:</span>
-                              <div className=\"font-medium text-foreground\">{system.users}</div>
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
+                            <div className="space-y-1">
+                              <span className="text-muted-foreground">Usuários:</span>
+                              <div className="font-medium text-foreground">{system.users}</div>
                             </div>
-                            <div className=\"space-y-1\">
-                              <span className=\"text-muted-foreground\">Licenças/mês:</span>
-                              <div className=\"font-medium text-foreground\">{formatCurrency(system.monthlyCost)}</div>
+                            <div className="space-y-1">
+                              <span className="text-muted-foreground">Licenças/mês:</span>
+                              <div className="font-medium text-foreground">{formatCurrency(system.monthlyCost)}</div>
                             </div>
-                            <div className=\"space-y-1\">
-                              <span className=\"text-muted-foreground\">Suporte anual:</span>
-                              <div className=\"font-medium text-foreground\">{formatCurrency(system.supportCost)}</div>
+                            <div className="space-y-1">
+                              <span className="text-muted-foreground">Suporte anual:</span>
+                              <div className="font-medium text-foreground">{formatCurrency(system.supportCost)}</div>
                             </div>
-                            <div className=\"space-y-1\">
-                              <span className=\"text-muted-foreground\">Infraestrutura:</span>
-                              <div className=\"font-medium text-foreground\">{formatCurrency(system.infrastructureCost)}</div>
+                            <div className="space-y-1">
+                              <span className="text-muted-foreground">Infraestrutura:</span>
+                              <div className="font-medium text-foreground">{formatCurrency(system.infrastructureCost)}</div>
                             </div>
                           </div>
                           
-                          <div className=\"mt-3 pt-3 border-t border-border\">
-                            <div className=\"flex items-center justify-between text-sm\">
-                              <div className=\"flex items-center gap-4\">
-                                <span className=\"text-muted-foreground\">
+                          <div className="mt-3 pt-3 border-t border-border">
+                            <div className="flex items-center justify-between text-sm">
+                              <div className="flex items-center gap-4">
+                                <span className="text-muted-foreground">
                                   <strong>SLA:</strong> {system.sla || '99.0%'}
                                 </span>
-                                <span className=\"text-muted-foreground\">
+                                <span className="text-muted-foreground">
                                   <strong>Utilização:</strong> {system.utilization || 75}%
                                 </span>
-                                <span className=\"text-muted-foreground\">
+                                <span className="text-muted-foreground">
                                   <strong>Custo/usuário/ano:</strong> {formatCurrency(((system.monthlyCost * 12) + system.supportCost + system.infrastructureCost) / (system.users || 1))}
                                 </span>
                               </div>
@@ -923,11 +923,11 @@ const ReportsPage = () => {
                           </div>
                           
                           {system.integrations && system.integrations.length > 0 && (
-                            <div className=\"mt-2\">
-                              <span className=\"text-xs text-muted-foreground\">Integrações:</span>
-                              <div className=\"flex flex-wrap gap-1 mt-1\">
+                            <div className="mt-2">
+                              <span className="text-xs text-muted-foreground">Integrações:</span>
+                              <div className="flex flex-wrap gap-1 mt-1">
                                 {system.integrations.map((integration, idx) => (
-                                  <Badge key={idx} variant=\"secondary\" className=\"text-xs\">
+                                  <Badge key={idx} variant="secondary" className="text-xs">
                                     {integration}
                                   </Badge>
                                 ))}
@@ -938,10 +938,10 @@ const ReportsPage = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className=\"text-center py-8\">
-                      <Server className=\"h-12 w-12 text-muted-foreground mx-auto mb-4\" />
-                      <h3 className=\"font-semibold text-foreground mb-2\">Nenhum sistema cadastrado</h3>
-                      <p className=\"text-muted-foreground\">
+                    <div className="text-center py-8">
+                      <Server className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                      <h3 className="font-semibold text-foreground mb-2">Nenhum sistema cadastrado</h3>
+                      <p className="text-muted-foreground">
                         Complete o inventário de sistemas para visualizar a análise detalhada.
                       </p>
                     </div>

@@ -166,7 +166,11 @@ const ReportsPage = () => {
       },
       overallScore: assessmentResults.overallScore || 0,
       assessmentDate: assessmentResults.completedAt || new Date().toISOString(),
-      areaScores: assessmentResults.areaScores || [],
+      areaScores: assessmentResults.areaScores?.map(area => ({
+        ...area,
+        status: area.score >= 80 ? 'excellent' : area.score >= 60 ? 'good' : 'moderate',
+        gaps: Math.floor((100 - area.score) / 15) // More gaps for lower scores
+      })) || [],
       criticalGaps: [],
       regulatoryCompliance: {
         "21 CFR Part 11": { score: Math.max(0, (assessmentResults.overallScore || 0) - 10), gaps: 2 },

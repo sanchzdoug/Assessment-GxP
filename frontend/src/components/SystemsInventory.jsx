@@ -989,7 +989,7 @@ const SystemsInventory = () => {
                                 <div>
                                   <span className="text-muted-foreground">Annual Total:</span>
                                   <div className="font-medium text-foreground">
-                                    ${((system.monthlyCost * 12) + system.supportCost + system.infrastructureCost).toLocaleString()}
+                                    {formatCurrency((system.monthlyCost * 12) + system.supportCost + system.infrastructureCost)}
                                   </div>
                                 </div>
                                 <div>

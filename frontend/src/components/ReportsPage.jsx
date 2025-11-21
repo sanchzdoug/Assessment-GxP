@@ -848,7 +848,6 @@ const ReportsPage = () => {
 
       toast.success("Iniciando geração do PDF completo...");
       
-      // Method 1: Generate comprehensive PDF content
       try {
         const html2pdf = (await import('html2pdf.js')).default;
         
@@ -859,72 +858,61 @@ const ReportsPage = () => {
         const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+        const filename = `Relatorio_Assessment_GxP_${safeCompanyName}_${dateStr}.pdf`;
         
         // Create complete HTML content
         const fullContent = generatePDFContent();
         
-        // Create temporary div with full content
+        // Create temporary container
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = fullContent;
         tempDiv.style.position = 'absolute';
         tempDiv.style.left = '-9999px';
         tempDiv.style.top = '-9999px';
+        tempDiv.style.width = '210mm';
         document.body.appendChild(tempDiv);
         
+        // Configure html2pdf options
         const opt = {
-          margin: [5, 5, 5, 5],
-          filename: `Relatorio_Assessment_GxP_${safeCompanyName}_${dateStr}.pdf`,
-          image: { type: 'jpeg', quality: 0.9 },
+          margin: 5,
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { 
-            scale: 1.0,
+            scale: 2,
             useCORS: true,
             logging: false,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            width: 794, // A4 width in pixels at 96dpi
-            height: 1123 // A4 height in pixels at 96dpi
+            letterRendering: true,
+            allowTaint: false,
+            backgroundColor: '#ffffff'
           },
           jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
-            orientation: 'portrait' 
+            orientation: 'portrait',
+            compress: true
           },
           pagebreak: { 
-            mode: ['avoid-all', 'css', 'legacy'],
-            before: '.page'
+            mode: ['css', 'legacy'],
+            after: '.page'
           }
         };
 
-        // Generate PDF from complete content
-        const pdf = html2pdf().set(opt).from(tempDiv);
-        const pdfBlob = await pdf.outputPdf('blob');
+        // Generate and save PDF using the save method
+        await html2pdf().set(opt).from(tempDiv).save();
         
-        // Clean up temporary element
-        document.body.removeChild(tempDiv);
+        // Clean up temporary element after a delay
+        setTimeout(() => {
+          if (tempDiv && tempDiv.parentNode) {
+            document.body.removeChild(tempDiv);
+          }
+        }, 1000);
         
-        if (!pdfBlob || pdfBlob.size === 0) {
-          throw new Error('PDF blob is empty or invalid');
-        }
-        
-        // Create download link
-        const url = URL.createObjectURL(pdfBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = opt.filename;
-        link.style.display = 'none';
-        
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        URL.revokeObjectURL(url);
-        
-        toast.success("PDF completo baixado com sucesso! Relatório consolidado de ${Math.ceil(fullContent.length / 5000)} páginas gerado.");
+        toast.success(`PDF completo baixado com sucesso! Arquivo: ${filename}`);
         return;
         
       } catch (html2pdfError) {
-        console.warn('html2pdf failed:', html2pdfError.message || html2pdfError);
-        throw new Error(`html2pdf method failed: ${html2pdfError.message || 'Unknown error'}`);
+        console.error('Erro ao gerar PDF:', html2pdfError);
+        throw new Error(`Falha ao gerar PDF: ${html2pdfError.message || 'Erro desconhecido'}`);
       }
       
     } catch (error) {

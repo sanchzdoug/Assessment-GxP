@@ -484,33 +484,62 @@ const AssessmentWizard = () => {
         return {
           area: area.name,
           score: Math.round((avgScore / 5) * 100),
-          weight: area.weight
+          weight: area.weight,
+          status: avgScore >= 4 ? 'excellent' : avgScore >= 2 ? 'good' : 'moderate',
+          gaps: scores.filter(score => score < 3).length
         };
       });
 
       // Calculate overall score
       const totalWeightedScore = areaScores.reduce((sum, area) => sum + (area.score * area.weight / 100), 0);
       const totalWeight = areaScores.reduce((sum, area) => sum + area.weight, 0);
-      const overallScore = Math.round((totalWeightedScore / totalWeight) * 100);
+      const overallScore = Math.round(totalWeightedScore / totalWeight);
 
-      // Save results
-      const results = {
+      // Get company data
+      const companyData = JSON.parse(localStorage.getItem('companyData') || '{}');
+      
+      // Create assessment record
+      const assessmentRecord = {
+        id: Date.now(),
+        companyName: companyData.companyName || 'Empresa Não Informada',
+        companySegment: companyData.segment || 'Segmento Não Informado',
+        assessmentDate: new Date().toISOString(),
+        completionDate: new Date().toISOString(),
+        status: 'completed',
+        overallScore,
+        areasCompleted: assessmentAreas.length,
+        totalAreas: assessmentAreas.length,
+        lastUpdated: new Date().toISOString(),
+        assessor: 'Sistema',
+        companyId: `comp_${Date.now()}`,
+        responses,
+        areaScores,
+        companyData
+      };
+
+      // Save individual assessment results
+      localStorage.setItem('assessmentResults', JSON.stringify({
         responses,
         areaScores,
         overallScore,
-        completedAt: new Date().toISOString()
-      };
+        completedAt: new Date().toISOString(),
+        companyData
+      }));
+
+      // Save to assessments list
+      const existingAssessments = JSON.parse(localStorage.getItem('assessmentsList') || '[]');
+      existingAssessments.push(assessmentRecord);
+      localStorage.setItem('assessmentsList', JSON.stringify(existingAssessments));
       
-      localStorage.setItem('assessmentResults', JSON.stringify(results));
-      
-      toast.success("Assessment completed successfully!");
+      toast.success("Assessment concluído com sucesso!");
       
       setTimeout(() => {
         navigate('/systems');
       }, 1500);
       
     } catch (error) {
-      toast.error("Failed to complete assessment");
+      console.error('Erro ao completar assessment:', error);
+      toast.error("Falha ao completar assessment");
     }
   };
 

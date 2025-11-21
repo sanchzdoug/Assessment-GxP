@@ -238,7 +238,7 @@ const CompanyRegistration = () => {
                     className="bg-primary hover:bg-primary-hover shadow-glow group"
                   >
                     {isSubmitting ? (
-                      <>Setting up your assessment...</>
+                      <>Configurando seu assessment...</>
                     ) : (
                       <>
                         Continuar para Assessment

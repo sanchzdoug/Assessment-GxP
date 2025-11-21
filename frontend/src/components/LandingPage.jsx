@@ -52,7 +52,7 @@ const LandingPage = () => {
       <nav className="px-6 py-4 backdrop-blur-xl bg-white/90 border-b border-border/50 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Shield className="h-8 w-8 text-primary" />
+            <img src="/softexpert-logo.svg" alt="SoftExpert" className="h-8" />
             <span className="text-xl font-space-grotesk font-bold text-foreground">GxP Compass</span>
           </div>
           <div className="hidden md:flex items-center gap-8">

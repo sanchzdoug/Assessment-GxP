@@ -1048,20 +1048,20 @@ const ReportsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-space-grotesk font-bold text-foreground">
-                  GxP Compliance Assessment Report
+                  Relatório de Assessment de Compliance GxP
                 </h1>
                 <p className="text-muted-foreground">
-                  Comprehensive analysis for {reportData.companyInfo.name} • Generated {new Date(reportData.assessmentDate).toLocaleDateString()}
+                  Análise abrangente para {reportData.companyInfo.name} • Gerado em {new Date(reportData.assessmentDate).toLocaleDateString('pt-BR')}
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Button variant="outline" onClick={handleShareReport} className="flex items-center gap-2">
                   <Share className="h-4 w-4" />
-                  Share Report
+                  Compartilhar Relatório
                 </Button>
                 <Button onClick={handleDownloadPDF} className="bg-primary hover:bg-primary-hover flex items-center gap-2">
                   <Download className="h-4 w-4" />
-                  Download PDF
+                  Baixar PDF
                 </Button>
               </div>
             </div>

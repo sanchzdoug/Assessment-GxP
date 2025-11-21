@@ -23,6 +23,8 @@ const formatCurrency = (value) => {
 const ReportsPage = () => {
   const [reportData, setReportData] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedGap, setSelectedGap] = useState(null);
+  const [showGapDetails, setShowGapDetails] = useState(false);
 
   // Mock report generation on component mount
   useEffect(() => {

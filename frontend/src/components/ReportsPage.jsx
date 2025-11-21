@@ -425,7 +425,7 @@ const ReportsPage = () => {
                 </div>
                 <div className="text-center space-y-2">
                   <div className="text-4xl font-bold text-primary">
-                    ${(reportData.systemsCost.totalAnnual / 1000000).toFixed(1)}M
+                    {formatCurrency(reportData.systemsCost.totalAnnual)}
                   </div>
                   <div className="text-sm text-muted-foreground">Annual IT Investment</div>
                   <div className="text-xs text-muted-foreground">

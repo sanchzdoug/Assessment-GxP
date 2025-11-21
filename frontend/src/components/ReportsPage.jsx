@@ -849,106 +849,84 @@ const ReportsPage = () => {
         return;
       }
 
-      toast.success("Iniciando geração do PDF completo...");
+      toast.success("Gerando PDF... Por favor aguarde.");
       
       try {
         const html2pdf = (await import('html2pdf.js')).default;
         
-        if (!html2pdf) {
-          throw new Error('html2pdf library not loaded');
-        }
-        
         const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
-        const filename = `Relatorio_Assessment_GxP_${safeCompanyName}_${dateStr}.pdf`;
+        const filename = `Relatorio_GxP_${safeCompanyName}_${dateStr}.pdf`;
         
-        // Create complete HTML content
-        const fullContent = generatePDFContent();
+        // Get the visible report content directly from DOM
+        const reportElement = document.getElementById('report-content-main');
         
-        // Create temporary container
+        if (!reportElement) {
+          throw new Error('Elemento do relatório não encontrado');
+        }
+        
+        // Clone the element to modify it for PDF
+        const clonedElement = reportElement.cloneNode(true);
+        
+        // Remove buttons and interactive elements from the clone
+        const buttons = clonedElement.querySelectorAll('button');
+        buttons.forEach(btn => btn.remove());
+        
+        // Create temp container
         const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = fullContent;
+        tempDiv.appendChild(clonedElement);
         tempDiv.style.position = 'absolute';
-        tempDiv.style.left = '-9999px';
-        tempDiv.style.top = '-9999px';
+        tempDiv.style.left = '-99999px';
+        tempDiv.style.top = '0';
         tempDiv.style.width = '210mm';
+        tempDiv.style.backgroundColor = 'white';
         document.body.appendChild(tempDiv);
         
-        // Configure html2pdf options
+        // Simpler PDF options
         const opt = {
-          margin: 5,
+          margin: [10, 10, 10, 10],
           filename: filename,
-          image: { type: 'jpeg', quality: 0.98 },
+          image: { type: 'jpeg', quality: 0.95 },
           html2canvas: { 
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
-            logging: false,
-            letterRendering: true,
-            allowTaint: false,
-            backgroundColor: '#ffffff'
+            logging: true,
+            backgroundColor: '#ffffff',
+            windowWidth: 794
           },
           jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
-            orientation: 'portrait',
-            compress: true
+            orientation: 'portrait'
           },
-          pagebreak: { 
-            mode: ['css', 'legacy'],
-            after: '.page'
-          }
+          pagebreak: { mode: ['avoid-all', 'css'] }
         };
 
-        // Generate and save PDF using the save method
+        console.log('Iniciando geração do PDF...');
+        
+        // Generate PDF
         await html2pdf().set(opt).from(tempDiv).save();
         
-        // Clean up temporary element after a delay
+        console.log('PDF gerado com sucesso!');
+        
+        // Clean up
         setTimeout(() => {
           if (tempDiv && tempDiv.parentNode) {
             document.body.removeChild(tempDiv);
           }
-        }, 1000);
+        }, 500);
         
-        toast.success(`PDF completo baixado com sucesso! Arquivo: ${filename}`);
-        return;
+        toast.success(`✅ PDF baixado: ${filename}`);
         
-      } catch (html2pdfError) {
-        console.error('Erro ao gerar PDF:', html2pdfError);
-        throw new Error(`Falha ao gerar PDF: ${html2pdfError.message || 'Erro desconhecido'}`);
+      } catch (pdfError) {
+        console.error('Erro detalhado do PDF:', pdfError);
+        toast.error(`Erro ao gerar PDF: ${pdfError.message || 'Erro desconhecido'}`);
       }
       
     } catch (error) {
-      console.error('Erro ao gerar PDF:', error.message || error);
-      
-      // Method 2: Fallback to print window with complete content
-      try {
-        toast.success("Usando método alternativo - gerando relatório completo...");
-        
-        const printWindow = window.open('', '_blank', 'width=1200,height=800');
-        
-        if (!printWindow) {
-          toast.error("Bloqueador de pop-up ativo. Permita pop-ups e tente novamente.");
-          return;
-        }
-        
-        const fullContent = generatePDFContent();
-        printWindow.document.write(fullContent);
-        printWindow.document.close();
-        
-        // Auto-print after content loads
-        printWindow.onload = function() {
-          setTimeout(function() {
-            printWindow.print();
-          }, 1000);
-        };
-        
-        toast.success("Relatório completo aberto em nova janela. Use 'Salvar como PDF' para baixar o documento consolidado.");
-        
-      } catch (printError) {
-        console.error('Print fallback failed:', printError);
-        toast.error("Erro ao gerar relatório. Tente atualizar a página e tentar novamente.");
-      }
+      console.error('Erro geral:', error);
+      toast.error("Erro ao preparar relatório para PDF.");
     }
   };
 

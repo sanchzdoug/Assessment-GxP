@@ -555,7 +555,11 @@ const AssessmentWizard = () => {
       toast.success("Assessment concluído com sucesso!");
       
       setTimeout(() => {
-        navigate('/systems');
+        if (editMode && assessmentId) {
+          navigate(`/systems?edit=${assessmentId}`);
+        } else {
+          navigate('/systems');
+        }
       }, 1500);
       
     } catch (error) {

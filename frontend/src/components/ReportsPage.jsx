@@ -860,7 +860,7 @@ const ReportsPage = () => {
         const filename = `Relatorio_GxP_${safeCompanyName}_${dateStr}.pdf`;
         
         // Get the visible report content directly from DOM
-        const reportElement = document.getElementById('report-content-main');
+        const reportElement = document.getElementById('report-content');
         
         if (!reportElement) {
           throw new Error('Elemento do relatório não encontrado');

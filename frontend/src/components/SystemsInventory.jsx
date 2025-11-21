@@ -731,7 +731,7 @@ const SystemsInventory = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {predefinedSystems
+                            {[...predefinedSystems, ...customSystems]
                               .filter(sys => {
                                 const matchesSearch = sys.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                                      sys.process?.toLowerCase().includes(searchTerm.toLowerCase()) ||

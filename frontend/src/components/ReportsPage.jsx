@@ -99,26 +99,38 @@ const getResourcesByArea = (areaId) => {
 };
 
 const ReportsPage = () => {
+  const location = useLocation();
   const [reportData, setReportData] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedGap, setSelectedGap] = useState(null);
   const [showGapDetails, setShowGapDetails] = useState(false);
 
-  // Mock report generation on component mount
+  // Generate report on component mount
   useEffect(() => {
     generateReport();
-  }, []);
+  }, [location]);
 
   const generateReport = async () => {
     setIsGenerating(true);
     
     try {
+      // Check if there's an assessment ID in URL
+      const searchParams = new URLSearchParams(location.search);
+      const assessmentId = searchParams.get('assessment');
+      
       // Get real assessment data
       const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
       const systemsInventory = JSON.parse(localStorage.getItem('systemsInventory') || '[]');
       
-      if (!assessmentResults.responses) {
-        // If no real data, use demo data
+      console.log('📊 Assessment ID:', assessmentId);
+      console.log('📊 Assessment Results:', assessmentResults);
+      console.log('📊 Systems Inventory:', systemsInventory);
+      
+      // Check if we have real assessment data
+      const hasRealData = assessmentResults.responses || assessmentResults.companyData || systemsInventory.length > 0;
+      
+      if (!hasRealData && !assessmentId) {
+        // If no real data and no assessment ID, use demo data
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         // Generate demo report data

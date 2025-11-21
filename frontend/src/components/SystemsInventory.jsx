@@ -830,18 +830,19 @@ const SystemsInventory = () => {
                                     <td className="p-3 border-r">
                                       {isSelected && (
                                         <Input
-                                          type="number"
-                                          placeholder="0"
-                                          value={systemData.supportCost}
+                                          type="text"
+                                          placeholder="R$ 0,00"
+                                          value={systemData.supportCost ? formatCurrency(systemData.supportCost) : ''}
                                           onChange={(e) => {
+                                            const numericValue = parseCurrencyInput(e.target.value);
                                             const updatedSystems = systems.map(s => 
                                               s.name === system.name 
-                                                ? { ...s, supportCost: parseInt(e.target.value) || 0 }
+                                                ? { ...s, supportCost: numericValue }
                                                 : s
                                             );
                                             setSystems(updatedSystems);
                                           }}
-                                          className="w-24 h-8 text-sm"
+                                          className="w-32 h-8 text-sm"
                                         />
                                       )}
                                     </td>

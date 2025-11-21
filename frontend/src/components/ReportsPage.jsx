@@ -414,8 +414,7 @@ const ReportsPage = () => {
 
   const handleDownloadPDF = async () => {
     try {
-      // Import html2pdf dynamically
-      const html2pdf = (await import('html2pdf.js')).default;
+      toast.success("Iniciando geração do PDF...");
       
       // Get the report content
       const element = document.getElementById('report-content');
@@ -425,34 +424,103 @@ const ReportsPage = () => {
         return;
       }
 
-      const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `Assessment_${reportData.companyInfo.name}_${new Date().toLocaleDateString('pt-BR')}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-          scale: 2,
-          useCORS: true,
-          logging: false
-        },
-        jsPDF: { 
-          unit: 'mm', 
-          format: 'a4', 
-          orientation: 'portrait' 
-        }
-      };
+      // Method 1: Try using html2pdf directly without iframe
+      try {
+        const html2pdf = (await import('html2pdf.js')).default;
+        
+        const opt = {
+          margin: [10, 10, 10, 10],
+          filename: `Assessment_${reportData.companyInfo.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`,
+          image: { type: 'jpeg', quality: 0.85 },
+          html2canvas: { 
+            scale: 1.5,
+            useCORS: true,
+            logging: false,
+            allowTaint: true,
+            backgroundColor: '#ffffff'
+          },
+          jsPDF: { 
+            unit: 'mm', 
+            format: 'a4', 
+            orientation: 'portrait' 
+          },
+          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        };
 
-      toast.success("Iniciando geração do PDF...");
-      
-      await html2pdf().set(opt).from(element).save();
-      
-      toast.success("PDF baixado com sucesso!");
+        // Create PDF
+        const pdf = html2pdf().set(opt).from(element);
+        const pdfBlob = await pdf.outputPdf('blob');
+        
+        // Create download link
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = opt.filename;
+        link.style.display = 'none';
+        
+        // Add to DOM, click, and remove
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Clean up
+        URL.revokeObjectURL(url);
+        
+        toast.success("PDF baixado com sucesso!");
+        return;
+        
+      } catch (html2pdfError) {
+        console.warn('html2pdf failed:', html2pdfError);
+        throw new Error('html2pdf method failed');
+      }
       
     } catch (error) {
       console.error('Erro ao gerar PDF:', error);
-      toast.error("Erro ao gerar PDF. Tentando método alternativo...");
       
-      // Fallback: open print dialog
-      window.print();
+      // Method 2: Fallback to browser print with custom CSS
+      try {
+        toast.success("Usando método alternativo de impressão...");
+        
+        // Add print-specific CSS
+        const printCSS = `
+          <style>
+            @media print {
+              body * { visibility: hidden; }
+              #report-content, #report-content * { visibility: visible; }
+              #report-content { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 20px !important;
+              }
+              .no-print { display: none !important; }
+              button { display: none !important; }
+              nav { display: none !important; }
+            }
+          </style>
+        `;
+        
+        const head = document.head || document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        style.innerHTML = printCSS;
+        head.appendChild(style);
+        
+        // Open print dialog
+        window.print();
+        
+        // Remove the style after printing
+        setTimeout(() => {
+          head.removeChild(style);
+        }, 1000);
+        
+        toast.success("Dialog de impressão aberto. Use 'Salvar como PDF' nas opções.");
+        
+      } catch (printError) {
+        console.error('Print fallback failed:', printError);
+        toast.error("Erro ao abrir dialog de impressão. Tente novamente mais tarde.");
+      }
     }
   };
 

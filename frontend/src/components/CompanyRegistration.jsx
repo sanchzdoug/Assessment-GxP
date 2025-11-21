@@ -12,10 +12,10 @@ import { toast } from 'sonner';
 const CompanyRegistration = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    companyName: '',
+    name: '',
     cnpj: '',
     segment: '',
-    companySize: '',
+    size: '',
     employees: '',
     type: 'headquarters' // headquarters or branch
   });

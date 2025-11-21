@@ -571,7 +571,7 @@ const SystemsInventory = () => {
                   <div>
                     <p className="text-sm text-muted-foreground">Total Annual Cost</p>
                     <p className="text-2xl font-bold text-foreground">
-                      ${(totalCosts.annual / 1000000).toFixed(1)}M
+                      {formatCurrency(totalCosts.annual)}
                     </p>
                   </div>
                   <div className="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center">

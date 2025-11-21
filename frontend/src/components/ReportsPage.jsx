@@ -221,9 +221,48 @@ const ReportsPage = () => {
     }
   };
 
-  const handleDownloadPDF = () => {
-    toast.success("PDF report download started");
-    // In real implementation, this would trigger PDF generation
+  const handleDownloadPDF = async () => {
+    try {
+      // Import html2pdf dynamically
+      const html2pdf = (await import('html2pdf.js')).default;
+      
+      // Get the report content
+      const element = document.getElementById('report-content');
+      
+      if (!element) {
+        toast.error("Conteúdo do relatório não encontrado");
+        return;
+      }
+
+      const opt = {
+        margin: [10, 10, 10, 10],
+        filename: `Assessment_${reportData.companyInfo.name}_${new Date().toLocaleDateString('pt-BR')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          logging: false
+        },
+        jsPDF: { 
+          unit: 'mm', 
+          format: 'a4', 
+          orientation: 'portrait' 
+        }
+      };
+
+      toast.success("Iniciando geração do PDF...");
+      
+      await html2pdf().set(opt).from(element).save();
+      
+      toast.success("PDF baixado com sucesso!");
+      
+    } catch (error) {
+      console.error('Erro ao gerar PDF:', error);
+      toast.error("Erro ao gerar PDF. Tentando método alternativo...");
+      
+      // Fallback: open print dialog
+      window.print();
+    }
   };
 
   const handleShareReport = () => {

@@ -34,11 +34,11 @@ const CompanyRegistration = () => {
   ];
 
   const companySizes = [
-    { value: "startup", label: "Startup (1-50 employees)", employees: "1-50" },
-    { value: "small", label: "Small (51-200 employees)", employees: "51-200" },
-    { value: "medium", label: "Medium (201-1000 employees)", employees: "201-1000" },
-    { value: "large", label: "Large (1001-5000 employees)", employees: "1001-5000" },
-    { value: "enterprise", label: "Enterprise (5000+ employees)", employees: "5000+" }
+    { value: "startup", label: "Startup (1-50 funcionários)", employees: "1-50" },
+    { value: "small", label: "Pequeno (51-200 funcionários)", employees: "51-200" },
+    { value: "medium", label: "Médio (201-1000 funcionários)", employees: "201-1000" },
+    { value: "large", label: "Grande (1001-5000 funcionários)", employees: "1001-5000" },
+    { value: "enterprise", label: "Corporação (5000+ funcionários)", employees: "5000+" }
   ];
 
   const handleSubmit = async (e) => {

@@ -1020,7 +1020,7 @@ const ReportsPage = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2">
             <img src="/softexpert-logo.svg" alt="SoftExpert" className="h-8" />
-            <span className="text-xl font-space-grotesk font-bold text-foreground">GxP Compass</span>
+            <img src="/softexpert-logo.svg" alt="SoftExpert" className="h-8" />
           </Link>
           <div className="flex items-center gap-6">
             <div className="hidden md:flex items-center gap-6">

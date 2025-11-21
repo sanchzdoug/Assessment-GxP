@@ -412,6 +412,433 @@ const ReportsPage = () => {
     }
   };
 
+  const generatePDFContent = () => {
+    const companyName = reportData.companyInfo?.name || 'Empresa';
+    const currentDate = new Date().toLocaleDateString('pt-BR');
+    
+    return `
+      <!DOCTYPE html>
+      <html lang="pt-BR">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Relatório de Assessment GxP - ${companyName}</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6; 
+            color: #333; 
+            font-size: 11px;
+          }
+          .page { 
+            width: 210mm; 
+            min-height: 297mm; 
+            padding: 20mm; 
+            margin: 0 auto; 
+            background: white;
+            page-break-after: always;
+          }
+          .header { 
+            text-align: center; 
+            border-bottom: 3px solid #1e40af; 
+            padding-bottom: 20px; 
+            margin-bottom: 30px; 
+          }
+          .header h1 { 
+            color: #1e40af; 
+            font-size: 24px; 
+            margin-bottom: 10px; 
+          }
+          .header h2 { 
+            color: #666; 
+            font-size: 16px; 
+            font-weight: normal; 
+          }
+          .section { 
+            margin-bottom: 30px; 
+            page-break-inside: avoid; 
+          }
+          .section h2 { 
+            color: #1e40af; 
+            font-size: 18px; 
+            margin-bottom: 15px; 
+            border-bottom: 2px solid #e5e7eb; 
+            padding-bottom: 5px; 
+          }
+          .section h3 { 
+            color: #374151; 
+            font-size: 14px; 
+            margin-bottom: 10px; 
+          }
+          .exec-summary { 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+          }
+          .metric-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            margin-bottom: 20px; 
+          }
+          .metric-card { 
+            text-align: center; 
+            padding: 15px; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 6px; 
+          }
+          .metric-value { 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #1e40af; 
+          }
+          .metric-label { 
+            font-size: 10px; 
+            color: #666; 
+            margin-top: 5px; 
+          }
+          .area-item { 
+            border: 1px solid #e5e7eb; 
+            border-radius: 6px; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+          }
+          .area-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 10px; 
+          }
+          .area-name { 
+            font-weight: bold; 
+            font-size: 12px; 
+          }
+          .score { 
+            font-size: 16px; 
+            font-weight: bold; 
+          }
+          .score.excellent { color: #059669; }
+          .score.good { color: #d97706; }
+          .score.moderate { color: #dc2626; }
+          .gap-item { 
+            border-left: 4px solid #dc2626; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            background: #fef2f2; 
+          }
+          .gap-header { 
+            font-weight: bold; 
+            color: #dc2626; 
+            margin-bottom: 5px; 
+          }
+          .gap-details { 
+            font-size: 10px; 
+            color: #666; 
+            margin-top: 5px; 
+          }
+          .badge { 
+            display: inline-block; 
+            padding: 2px 8px; 
+            border-radius: 12px; 
+            font-size: 9px; 
+            margin: 2px; 
+          }
+          .badge.high-risk { background: #fee2e2; color: #dc2626; }
+          .badge.medium-risk { background: #fef3cd; color: #d97706; }
+          .badge.low-risk { background: #d1fae5; color: #059669; }
+          .recommendation-item { 
+            border: 1px solid #e5e7eb; 
+            border-radius: 6px; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+          }
+          .rec-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start; 
+            margin-bottom: 10px; 
+          }
+          .rec-title { 
+            font-weight: bold; 
+            font-size: 12px; 
+          }
+          .rec-priority { 
+            font-size: 9px; 
+            padding: 2px 6px; 
+            border-radius: 4px; 
+          }
+          .rec-priority.high { background: #fee2e2; color: #dc2626; }
+          .rec-priority.medium { background: #fef3cd; color: #d97706; }
+          .rec-priority.low { background: #d1fae5; color: #059669; }
+          .table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 20px; 
+          }
+          .table th, .table td { 
+            border: 1px solid #e5e7eb; 
+            padding: 8px; 
+            text-align: left; 
+            font-size: 10px; 
+          }
+          .table th { 
+            background: #f8fafc; 
+            font-weight: bold; 
+          }
+          .currency { 
+            font-family: monospace; 
+            font-weight: bold; 
+          }
+          @page { 
+            size: A4; 
+            margin: 0; 
+          }
+          @media print { 
+            .page { page-break-after: always; } 
+            body { -webkit-print-color-adjust: exact; }
+          }
+        </style>
+      </head>
+      <body>
+        <!-- Página 1: Capa e Resumo Executivo -->
+        <div class="page">
+          <div class="header">
+            <h1>Relatório de Assessment GxP</h1>
+            <h2>Análise Abrangente de Compliance Regulatório</h2>
+            <p style="margin-top: 15px;"><strong>Empresa:</strong> ${companyName}</p>
+            <p><strong>Segmento:</strong> ${reportData.companyInfo?.segment || 'Não informado'}</p>
+            <p><strong>Data do Relatório:</strong> ${currentDate}</p>
+          </div>
+
+          <div class="section">
+            <h2>Resumo Executivo</h2>
+            <div class="exec-summary">
+              <div class="metric-grid">
+                <div class="metric-card">
+                  <div class="metric-value">${reportData.overallScore}%</div>
+                  <div class="metric-label">Score Geral de Compliance</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">${reportData.areaScores?.length || 0}</div>
+                  <div class="metric-label">Áreas Avaliadas</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value">${reportData.criticalGaps?.length || 0}</div>
+                  <div class="metric-label">Gaps Críticos</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value currency">${formatCurrency(reportData.systemsCost?.totalAnnual || 0)}</div>
+                  <div class="metric-label">Investimento Anual em TI</div>
+                </div>
+              </div>
+              
+              <h3>Principais Achados:</h3>
+              <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Score geral de compliance: ${reportData.overallScore}% - ${reportData.overallScore >= 80 ? 'Excelente' : reportData.overallScore >= 60 ? 'Bom' : 'Requer melhoria'}</li>
+                <li>Áreas com melhor performance: ${reportData.areaScores?.filter(a => a.score >= 80).map(a => a.area).join(', ') || 'Nenhuma identificada'}</li>
+                <li>Áreas críticas: ${reportData.areaScores?.filter(a => a.score < 60).map(a => a.area).join(', ') || 'Nenhuma identificada'}</li>
+                <li>Gaps de alto risco: ${reportData.criticalGaps?.filter(g => g.risk === 'High').length || 0}</li>
+                <li>Investimento em ${reportData.systemsCost?.totalSystems || 0} sistemas GxP</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Página 2: Scores por Área -->
+        <div class="page">
+          <div class="header">
+            <h1>Análise de Maturidade por Área de Negócio</h1>
+          </div>
+
+          <div class="section">
+            <h2>Performance por Área Avaliada</h2>
+            ${reportData.areaScores?.map(area => `
+              <div class="area-item">
+                <div class="area-header">
+                  <span class="area-name">${area.area}</span>
+                  <span class="score ${area.status}">${area.score}%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 10px; color: #666;">
+                  <span>Peso: ${area.weight}%</span>
+                  <span>Status: ${area.status === 'excellent' ? 'Excelente' : area.status === 'good' ? 'Bom' : 'Moderado'}</span>
+                  <span>Gaps: ${area.gaps || 0}</span>
+                </div>
+                <div style="background: #e5e7eb; height: 6px; border-radius: 3px; margin-top: 8px;">
+                  <div style="background: ${area.score >= 80 ? '#059669' : area.score >= 60 ? '#d97706' : '#dc2626'}; 
+                             height: 6px; border-radius: 3px; width: ${area.score}%;"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Página 3: Gaps Críticos -->
+        <div class="page">
+          <div class="header">
+            <h1>Gaps Críticos de Compliance</h1>
+          </div>
+
+          <div class="section">
+            <h2>Issues Prioritárias Identificadas</h2>
+            ${reportData.criticalGaps?.map(gap => `
+              <div class="gap-item">
+                <div class="gap-header">${gap.area}: ${gap.gap}</div>
+                <div style="margin: 8px 0;">
+                  <span class="badge ${gap.risk === 'High' ? 'high-risk' : gap.risk === 'Medium' ? 'medium-risk' : 'low-risk'}">
+                    ${gap.risk} Risk
+                  </span>
+                  <span class="badge" style="background: #f3f4f6; color: #374151;">${gap.regulation}</span>
+                </div>
+                <div style="margin-top: 10px;">
+                  <strong>Recomendação:</strong> ${gap.recommendation}
+                </div>
+                ${gap.details ? `
+                  <div class="gap-details">
+                    <strong>Timeline:</strong> ${gap.details.timeline} | 
+                    <strong>Responsável:</strong> ${gap.details.responsible} | 
+                    <strong>Impacto:</strong> ${gap.details.impactLevel}
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Página 4: Compliance Regulatório -->
+        <div class="page">
+          <div class="header">
+            <h1>Status de Compliance Regulatório</h1>
+          </div>
+
+          <div class="section">
+            <h2>Aderência às Regulamentações</h2>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Regulamentação</th>
+                  <th>Score</th>
+                  <th>Status</th>
+                  <th>Gaps</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${Object.entries(reportData.regulatoryCompliance || {}).map(([reg, data]) => `
+                  <tr>
+                    <td>${reg}</td>
+                    <td>${Math.round(data.score)}%</td>
+                    <td>${data.score >= 80 ? 'Compliant' : data.score >= 60 ? 'Partial' : 'Non-Compliant'}</td>
+                    <td>${data.gaps}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Página 5: Sistemas e Custos -->
+        <div class="page">
+          <div class="header">
+            <h1>Análise de Sistemas e Custos</h1>
+          </div>
+
+          <div class="section">
+            <h2>Resumo de Investimentos</h2>
+            <div class="metric-grid">
+              <div class="metric-card">
+                <div class="metric-value currency">${formatCurrency(reportData.systemsCost?.monthlyLicenses || 0)}</div>
+                <div class="metric-label">Licenças Mensais</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value currency">${formatCurrency((reportData.systemsCost?.monthlyLicenses || 0) * 12)}</div>
+                <div class="metric-label">Licenças Anuais</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value currency">${formatCurrency(reportData.systemsCost?.support || 0)}</div>
+                <div class="metric-label">Suporte & Manutenção</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-value currency">${formatCurrency(reportData.systemsCost?.infrastructure || 0)}</div>
+                <div class="metric-label">Infraestrutura</div>
+              </div>
+            </div>
+
+            <h3>Sistemas Implementados</h3>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Sistema</th>
+                  <th>Tipo</th>
+                  <th>Usuários</th>
+                  <th>Custo Anual</th>
+                  <th>GxP</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${JSON.parse(localStorage.getItem('systemsInventory') || '[]').map(system => `
+                  <tr>
+                    <td>${system.name}</td>
+                    <td>${system.type}</td>
+                    <td>${system.users}</td>
+                    <td class="currency">${formatCurrency((system.monthlyCost * 12) + system.supportCost + system.infrastructureCost)}</td>
+                    <td>${system.gxpCritical ? 'Sim' : 'Não'}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Página 6: Recomendações -->
+        <div class="page">
+          <div class="header">
+            <h1>Recomendações Estratégicas</h1>
+          </div>
+
+          <div class="section">
+            <h2>Plano de Ação Prioritizado</h2>
+            ${reportData.recommendations?.map(rec => `
+              <div class="recommendation-item">
+                <div class="rec-header">
+                  <div class="rec-title">${rec.title}</div>
+                  <span class="rec-priority ${rec.priority.toLowerCase()}">${rec.priority} Priority</span>
+                </div>
+                <div style="margin-bottom: 10px;">
+                  <span class="badge" style="background: #f3f4f6; color: #374151;">${rec.category}</span>
+                  <span class="badge" style="background: #f3f4f6; color: #374151;">Timeline: ${rec.timeline}</span>
+                  <span class="badge" style="background: #f3f4f6; color: #374151;">Esforço: ${rec.effort}</span>
+                </div>
+                <p style="line-height: 1.4;">${rec.description}</p>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="section">
+            <h2>Próximos Passos</h2>
+            <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 6px; padding: 15px;">
+              <h3 style="color: #0ea5e9; margin-bottom: 10px;">Ações Imediatas (0-30 dias):</h3>
+              <ul style="margin-left: 20px;">
+                <li>Revisar e priorizar gaps críticos identificados</li>
+                <li>Designar responsáveis para atividades de remediação</li>
+                <li>Agendar reunião de kickoff do plano de ação</li>
+              </ul>
+              
+              <h3 style="color: #0ea5e9; margin: 15px 0 10px 0;">Metas de Curto Prazo (1-6 meses):</h3>
+              <ul style="margin-left: 20px;">
+                <li>Implementar correções para gaps de alto risco</li>
+                <li>Iniciar projetos de melhoria em áreas críticas</li>
+                <li>Estabelecer monitoramento contínuo de compliance</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+  };
+
   const handleDownloadPDF = async () => {
     try {
       if (!reportData || !reportData.companyInfo) {

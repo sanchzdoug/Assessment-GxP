@@ -230,6 +230,12 @@ const ReportsPage = () => {
         ]
       };
       
+      // Calculate overallScore based on weighted average of area scores
+      const overallScore = mockReportData.areaScores.reduce((total, area) => {
+        return total + (area.score * area.weight / 100);
+      }, 0);
+      mockReportData.overallScore = Math.round(overallScore);
+      
       setReportData(mockReportData);
       toast.success("Relatório de demonstração gerado com sucesso");
       return;

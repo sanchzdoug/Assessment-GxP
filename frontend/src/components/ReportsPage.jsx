@@ -129,8 +129,6 @@ const ReportsPage = () => {
           employees: 2500,
           type: "Headquarters"
         },
-        overallScore: 78,
-        assessmentDate: new Date().toISOString(),
         areaScores: [
           { area: "Quality Assurance", score: 85, weight: 20, status: "excellent", gaps: 1 },
           { area: "System Validation", score: 72, weight: 15, status: "good", gaps: 2 },

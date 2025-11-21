@@ -16,6 +16,29 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Utility function to format currency in Brazilian Real
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(value || 0);
+};
+
+// Utility function to format input value as currency
+const formatInputCurrency = (value) => {
+  const numericValue = value.replace(/\D/g, '');
+  const floatValue = parseFloat(numericValue) / 100;
+  return floatValue.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  });
+};
+
+// Utility function to parse currency input back to number
+const parseCurrencyInput = (formattedValue) => {
+  return parseFloat(formattedValue.replace(/[^\d,]/g, '').replace(',', '.')) || 0;
+};
+
 const SystemsInventory = () => {
   const navigate = useNavigate();
   const [systems, setSystems] = useState([

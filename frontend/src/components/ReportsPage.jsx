@@ -646,7 +646,7 @@ const ReportsPage = () => {
                       </div>
                       <div className="text-center p-4 bg-muted/30 rounded-lg">
                         <div className="text-2xl font-bold text-primary">
-                          ${Math.round(reportData.systemsCost.totalAnnual / reportData.systemsCost.totalUsers)}
+                          {formatCurrency(Math.round(reportData.systemsCost.totalAnnual / reportData.systemsCost.totalUsers))}
                         </div>
                         <div className="text-sm text-muted-foreground">Cost/User/Year</div>
                       </div>

@@ -1217,10 +1217,10 @@ const ReportsPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <CheckCircle className="h-5 w-5" />
-                    Regulatory Framework Compliance
+                    Compliance com Framework Regulatório
                   </CardTitle>
                   <CardDescription>
-                    Compliance status across key regulatory requirements
+                    Status de compliance em relação aos principais requisitos regulatórios
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -1237,10 +1237,10 @@ const ReportsPage = () => {
                           <Progress value={data.score} className="h-2" />
                           <div className="flex items-center justify-between text-sm">
                             <span className="text-muted-foreground">
-                              {data.gaps} compliance gaps identified
+                              {data.gaps} gaps de compliance identificados
                             </span>
                             <Badge className={getScoreBadge(data.score)}>
-                              {data.score >= 80 ? 'Compliant' : data.score >= 60 ? 'Partial' : 'Non-Compliant'}
+                              {data.score >= 80 ? 'Compliant' : data.score >= 60 ? 'Parcial' : 'Não Compliant'}
                             </Badge>
                           </div>
                         </div>

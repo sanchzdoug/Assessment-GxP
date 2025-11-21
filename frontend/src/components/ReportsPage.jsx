@@ -1186,7 +1186,7 @@ const ReportsPage = () => {
                             <div className="flex items-center gap-2">
                               <Badge variant="outline" className="text-xs">{gap.area}</Badge>
                               <Badge className={`text-xs ${getRiskColor(gap.risk)}`}>
-                                {gap.risk} Risk
+                                {gap.risk === 'High' ? 'Alto' : gap.risk === 'Medium' ? 'Médio' : 'Baixo'} Risco
                               </Badge>
                               <Badge variant="outline" className="text-xs">{gap.regulation}</Badge>
                             </div>
@@ -1202,7 +1202,7 @@ const ReportsPage = () => {
                             }}
                           >
                             <Eye className="h-3 w-3 mr-1" />
-                            Details
+                            Detalhes
                           </Button>
                         </div>
                       </div>

@@ -938,8 +938,8 @@ const SystemsInventory = () => {
                               <h3 className="font-semibold text-foreground">Resumo dos Sistemas Selecionados</h3>
                               <p className="text-sm text-muted-foreground">
                                 {systems.length} sistemas selecionados • 
-                                Custo total mensal: R$ {systems.reduce((sum, s) => sum + (s.monthlyCost || 0), 0).toLocaleString()} • 
-                                Custo total anual: R$ {systems.reduce((sum, s) => sum + (s.monthlyCost || 0) * 12 + (s.supportCost || 0) + (s.infrastructureCost || 0), 0).toLocaleString()}
+                                Custo total mensal: {formatCurrency(systems.reduce((sum, s) => sum + (s.monthlyCost || 0), 0))} • 
+                                Custo total anual: {formatCurrency(systems.reduce((sum, s) => sum + (s.monthlyCost || 0) * 12 + (s.supportCost || 0) + (s.infrastructureCost || 0), 0))}
                               </p>
                             </div>
                             <Button onClick={handleContinue} className="bg-success hover:bg-success/90">

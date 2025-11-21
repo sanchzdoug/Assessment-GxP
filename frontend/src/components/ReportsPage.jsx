@@ -25,11 +25,16 @@ const ReportsPage = () => {
     setIsGenerating(true);
     
     try {
-      // Simulate API call to generate comprehensive report
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Get real assessment data
+      const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+      const systemsInventory = JSON.parse(localStorage.getItem('systemsInventory') || '[]');
       
-      // Generate mock comprehensive report data
-      const mockReportData = {
+      if (!assessmentResults.responses) {
+        // If no real data, use demo data
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Generate demo report data
+        const mockReportData = {
         companyInfo: {
           name: "BioPharma Solutions",
           segment: "Pharmaceutical",

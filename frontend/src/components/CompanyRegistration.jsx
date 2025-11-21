@@ -128,8 +128,8 @@ const CompanyRegistration = () => {
                   <Input
                     id="companyName"
                     placeholder="Digite o nome da sua empresa"
-                    value={formData.companyName}
-                    onChange={(e) => updateFormData('companyName', e.target.value)}
+                    value={formData.name}
+                    onChange={(e) => updateFormData('name', e.target.value)}
                     required
                     className="bg-background border-border"
                   />

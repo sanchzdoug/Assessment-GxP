@@ -138,6 +138,7 @@ const ReportsPage = () => {
           { area: "Laboratory / LIMS", score: 79, weight: 10, status: "good", gaps: 1 },
           { area: "Supply Chain", score: 65, weight: 10, status: "moderate", gaps: 4 }
         ],
+        assessmentDate: new Date().toISOString(),
         criticalGaps: [
           {
             area: "Information Technology",

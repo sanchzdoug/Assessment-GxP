@@ -295,11 +295,26 @@ const SystemsInventory = () => {
     toast.success("Sistema customizado adicionado à lista de seleção com sucesso!");
   };
 
-  // Load custom systems on component mount
+  // Load custom systems and check for edit mode on component mount
   useEffect(() => {
     const savedCustomSystems = JSON.parse(localStorage.getItem('customSystems') || '[]');
     setCustomSystems(savedCustomSystems);
-  }, []);
+    
+    // Check if in edit mode
+    const searchParams = new URLSearchParams(location.search);
+    const editId = searchParams.get('edit');
+    
+    if (editId) {
+      setEditMode(true);
+      
+      // Load existing systems data
+      const savedSystems = JSON.parse(localStorage.getItem('systemsInventory') || '[]');
+      if (savedSystems.length > 0) {
+        setSystems(savedSystems);
+        toast.success("Dados dos sistemas carregados para edição");
+      }
+    }
+  }, [location]);
 
   const handleContinue = () => {
     // Save systems data

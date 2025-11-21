@@ -232,13 +232,15 @@ const SystemsInventory = () => {
     toast.success("System added successfully");
   };
 
+  const [customSystems, setCustomSystems] = useState([]);
+
   const handleAddCustomSystem = () => {
     if (!customSystem.name || !customSystem.type || !customSystem.process || !customSystem.vendor) {
       toast.error("Por favor, preencha todos os campos obrigatórios");
       return;
     }
 
-    // Add to predefined systems list for immediate selection
+    // Create new custom system
     const newCustomSystem = {
       name: customSystem.name,
       type: customSystem.type,
@@ -247,8 +249,13 @@ const SystemsInventory = () => {
       description: customSystem.description || `Sistema customizado: ${customSystem.name}`
     };
 
-    // Add to predefined systems for selection
-    predefinedSystems.push(newCustomSystem);
+    // Add to custom systems state
+    setCustomSystems(prev => [...prev, newCustomSystem]);
+    
+    // Save to localStorage
+    const existingCustomSystems = JSON.parse(localStorage.getItem('customSystems') || '[]');
+    existingCustomSystems.push(newCustomSystem);
+    localStorage.setItem('customSystems', JSON.stringify(existingCustomSystems));
     
     // Reset form
     setCustomSystem({
@@ -262,6 +269,12 @@ const SystemsInventory = () => {
     setShowCustomSystemDialog(false);
     toast.success("Sistema customizado adicionado à lista de seleção com sucesso!");
   };
+
+  // Load custom systems on component mount
+  useEffect(() => {
+    const savedCustomSystems = JSON.parse(localStorage.getItem('customSystems') || '[]');
+    setCustomSystems(savedCustomSystems);
+  }, []);
 
   const handleContinue = () => {
     // Save systems data

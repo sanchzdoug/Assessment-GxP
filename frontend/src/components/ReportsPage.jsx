@@ -842,6 +842,460 @@ const ReportsPage = () => {
     `;
   };
 
+  const generateCompletePDFContent = () => {
+    const currentDate = new Date().toLocaleDateString('pt-BR', { 
+      day: '2-digit', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+    const companyName = reportData.companyInfo?.name || 'Empresa';
+    
+    return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page { 
+      size: A4; 
+      margin: 15mm 10mm 20mm 10mm;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+      background: white;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 3px solid #1e40af;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      color: #1e40af;
+      font-size: 24pt;
+      margin-bottom: 5px;
+    }
+    .header .subtitle {
+      color: #666;
+      font-size: 11pt;
+    }
+    .section {
+      margin: 25px 0;
+      page-break-inside: avoid;
+    }
+    .section-title {
+      background: #1e40af;
+      color: white;
+      padding: 10px 15px;
+      font-size: 14pt;
+      font-weight: bold;
+      margin-bottom: 15px;
+      page-break-after: avoid;
+    }
+    .subsection-title {
+      color: #1e40af;
+      font-size: 12pt;
+      font-weight: bold;
+      margin: 15px 0 10px 0;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 5px;
+    }
+    .card {
+      border: 1px solid #e5e7eb;
+      padding: 15px;
+      margin: 10px 0;
+      background: #f9fafb;
+      border-radius: 4px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .metric {
+      text-align: center;
+      padding: 15px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 4px;
+    }
+    .metric-value {
+      font-size: 24pt;
+      font-weight: bold;
+      color: #1e40af;
+    }
+    .metric-label {
+      font-size: 9pt;
+      color: #666;
+      margin-top: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #f3f4f6;
+      font-weight: bold;
+      color: #1e40af;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 9pt;
+      font-weight: bold;
+    }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger { background: #fee2e2; color: #991b1b; }
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #e5e7eb;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 5px 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #1e40af);
+      transition: width 0.3s;
+    }
+    .footer {
+      text-align: center;
+      font-size: 9pt;
+      color: #666;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #e5e7eb;
+    }
+    .page-break {
+      page-break-after: always;
+    }
+    .gap-item {
+      background: white;
+      border-left: 4px solid #dc2626;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .recommendation-item {
+      background: white;
+      border-left: 4px solid #059669;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    ul, ol { margin-left: 20px; margin-top: 10px; }
+    li { margin: 5px 0; }
+    .no-break { page-break-inside: avoid; }
+  </style>
+</head>
+<body>
+
+<!-- PÁGINA 1: CAPA E SUMÁRIO EXECUTIVO -->
+<div class="header">
+  <h1>SoftExpert</h1>
+  <div style="font-size: 20pt; color: #1e40af; font-weight: bold; margin: 15px 0;">
+    Relatório de Assessment GxP
+  </div>
+  <div class="subtitle">Análise Abrangente de Compliance Regulatório</div>
+  <div style="margin-top: 20px; font-size: 10pt; color: #666;">
+    <strong>Empresa:</strong> ${companyName}<br>
+    <strong>Segmento:</strong> ${reportData.companyInfo?.segment || 'Life Sciences'}<br>
+    <strong>Data de Geração:</strong> ${currentDate}
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">1. Sumário Executivo</div>
+  
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="metric-value">${Math.round(reportData.overallScore)}%</div>
+      <div class="metric-label">Score Geral de Compliance</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${reportData.areaScores?.length || 0}</div>
+      <div class="metric-label">Áreas Avaliadas</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${reportData.criticalGaps?.length || 0}</div>
+      <div class="metric-label">Gaps Críticos</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${formatCurrency(reportData.systemsCost?.totalAnnual || 0)}</div>
+      <div class="metric-label">Investimento Anual em TI</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <strong>Nível de Maturidade:</strong> 
+    ${reportData.overallScore >= 80 ? 'Alto - Processos bem estabelecidos' : 
+      reportData.overallScore >= 60 ? 'Médio - Necessita melhorias' : 
+      'Baixo - Requer atenção imediata'}
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 2: VISÃO GERAL E DASHBOARDS -->
+<div class="section">
+  <div class="section-title">2. Visão Geral do Assessment</div>
+  
+  <div class="subsection-title">2.1 Informações da Organização</div>
+  <table>
+    <tr><th>Propriedade</th><th>Valor</th></tr>
+    <tr><td>Nome da Empresa</td><td>${companyName}</td></tr>
+    <tr><td>Segmento</td><td>${reportData.companyInfo?.segment || 'N/A'}</td></tr>
+    <tr><td>Porte</td><td>${reportData.companyInfo?.size || 'N/A'}</td></tr>
+    <tr><td>Número de Funcionários</td><td>${reportData.companyInfo?.employees || 'N/A'}</td></tr>
+    <tr><td>Data do Assessment</td><td>${new Date(reportData.assessmentDate).toLocaleDateString('pt-BR')}</td></tr>
+  </table>
+
+  <div class="subsection-title">2.2 KPIs Principais</div>
+  <table>
+    <tr><th>Indicador</th><th>Valor</th><th>Status</th></tr>
+    <tr>
+      <td>Compliance Geral</td>
+      <td>${Math.round(reportData.overallScore)}%</td>
+      <td><span class="badge ${reportData.overallScore >= 80 ? 'badge-success' : reportData.overallScore >= 60 ? 'badge-warning' : 'badge-danger'}">
+        ${reportData.overallScore >= 80 ? 'Excelente' : reportData.overallScore >= 60 ? 'Bom' : 'Necessita Melhoria'}
+      </span></td>
+    </tr>
+    <tr>
+      <td>Sistemas GxP Críticos</td>
+      <td>${reportData.systemsCost?.gxpSystems || 0}</td>
+      <td><span class="badge badge-success">Identificados</span></td>
+    </tr>
+    <tr>
+      <td>Custo por Usuário/Ano</td>
+      <td>${formatCurrency(Math.round((reportData.systemsCost?.totalAnnual || 0) / (reportData.systemsCost?.totalUsers || 1)))}</td>
+      <td><span class="badge badge-warning">Análise Disponível</span></td>
+    </tr>
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 3: SCORES POR ÁREA -->
+<div class="section">
+  <div class="section-title">3. Assessment de Maturidade por Área</div>
+  
+  ${(reportData.areaScores || []).map(area => `
+    <div class="card no-break">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div>
+          <strong style="font-size: 12pt; color: #1e40af;">${area.area}</strong>
+          <span class="badge ${area.score >= 80 ? 'badge-success' : area.score >= 60 ? 'badge-warning' : 'badge-danger'}" style="margin-left: 10px;">
+            ${area.score >= 80 ? 'Excelente' : area.score >= 60 ? 'Bom' : 'Moderado'}
+          </span>
+          <span class="badge" style="background: #e0e7ff; color: #3730a3; margin-left: 5px;">
+            Peso: ${area.weight}%
+          </span>
+        </div>
+        <div style="font-size: 20pt; font-weight: bold; color: ${area.score >= 80 ? '#059669' : area.score >= 60 ? '#d97706' : '#dc2626'};">
+          ${area.score}%
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${area.score}%;"></div>
+      </div>
+      ${area.gaps > 0 ? `<div style="margin-top: 8px; color: #dc2626; font-size: 9pt;">⚠ ${area.gaps} gaps identificados</div>` : ''}
+    </div>
+  `).join('')}
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 4: GAPS CRÍTICOS -->
+<div class="section">
+  <div class="section-title">4. Gaps Críticos de Compliance</div>
+  
+  <p style="margin-bottom: 15px;">Questões de alta prioridade que requerem atenção imediata:</p>
+  
+  ${(reportData.criticalGaps || []).map((gap, index) => `
+    <div class="gap-item">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <div>
+          <strong>Gap ${index + 1}: ${gap.gap}</strong>
+        </div>
+        <span class="badge ${gap.risk === 'High' ? 'badge-danger' : gap.risk === 'Medium' ? 'badge-warning' : 'badge-success'}">
+          ${gap.risk === 'High' ? 'Alto Risco' : gap.risk === 'Medium' ? 'Médio Risco' : 'Baixo Risco'}
+        </span>
+      </div>
+      <div style="font-size: 9pt; color: #666; margin-bottom: 5px;">
+        <strong>Área:</strong> ${gap.area} | <strong>Regulação:</strong> ${gap.regulation}
+      </div>
+      <div style="margin-top: 8px;">
+        <strong>Recomendação:</strong> ${gap.recommendation}
+      </div>
+    </div>
+  `).join('')}
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 5: ANÁLISE REGULATÓRIA -->
+<div class="section">
+  <div class="section-title">5. Análise de Compliance Regulatório</div>
+  
+  <p style="margin-bottom: 15px;">Status de compliance em relação aos principais frameworks regulatórios:</p>
+  
+  <table>
+    <tr>
+      <th>Framework Regulatório</th>
+      <th>Score</th>
+      <th>Gaps Identificados</th>
+      <th>Status</th>
+    </tr>
+    ${Object.entries(reportData.regulatoryCompliance || {}).map(([regulation, data]) => `
+      <tr>
+        <td><strong>${regulation}</strong></td>
+        <td>
+          <div class="progress-bar" style="width: 150px; display: inline-block;">
+            <div class="progress-fill" style="width: ${data.score}%;"></div>
+          </div>
+          <strong style="margin-left: 10px;">${data.score}%</strong>
+        </td>
+        <td>${data.gaps} gaps</td>
+        <td>
+          <span class="badge ${data.score >= 80 ? 'badge-success' : data.score >= 60 ? 'badge-warning' : 'badge-danger'}">
+            ${data.score >= 80 ? 'Compliant' : data.score >= 60 ? 'Parcial' : 'Não Compliant'}
+          </span>
+        </td>
+      </tr>
+    `).join('')}
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 6: INVENTÁRIO DE SISTEMAS E CUSTOS -->
+<div class="section">
+  <div class="section-title">6. Inventário de Sistemas e Análise de Custos</div>
+  
+  <div class="subsection-title">6.1 Análise de Custos</div>
+  <table>
+    <tr><th>Categoria</th><th>Valor (BRL)</th></tr>
+    <tr>
+      <td>Licenças Mensais</td>
+      <td>${formatCurrency(reportData.systemsCost?.monthlyLicenses || 0)}</td>
+    </tr>
+    <tr style="background: #fef3c7;">
+      <td><strong>Licenças Anuais (Calculado Automaticamente: Mensal × 12)</strong></td>
+      <td><strong>${formatCurrency((reportData.systemsCost?.monthlyLicenses || 0) * 12)}</strong></td>
+    </tr>
+    <tr>
+      <td>Suporte & Manutenção</td>
+      <td>${formatCurrency(reportData.systemsCost?.support || 0)}</td>
+    </tr>
+    <tr>
+      <td>Infraestrutura</td>
+      <td>${formatCurrency(reportData.systemsCost?.infrastructure || 0)}</td>
+    </tr>
+    <tr style="background: #dbeafe; font-weight: bold;">
+      <td><strong>Investimento Anual Total</strong></td>
+      <td><strong>${formatCurrency(reportData.systemsCost?.totalAnnual || 0)}</strong></td>
+    </tr>
+  </table>
+
+  <div class="subsection-title">6.2 Métricas de Sistemas</div>
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="metric-value">${reportData.systemsCost?.totalSystems || 0}</div>
+      <div class="metric-label">Total de Sistemas</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${reportData.systemsCost?.gxpSystems || 0}</div>
+      <div class="metric-label">GxP Críticos</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${(reportData.systemsCost?.totalUsers || 0).toLocaleString()}</div>
+      <div class="metric-label">Total de Usuários</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value">${formatCurrency(Math.round((reportData.systemsCost?.totalAnnual || 0) / (reportData.systemsCost?.totalUsers || 1)))}</div>
+      <div class="metric-label">Custo/Usuário/Ano</div>
+    </div>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- PÁGINA 7: RECOMENDAÇÕES ESTRATÉGICAS -->
+<div class="section">
+  <div class="section-title">7. Recomendações Estratégicas</div>
+  
+  <p style="margin-bottom: 15px;">Plano de ação priorizado para melhoria de compliance:</p>
+  
+  ${(reportData.recommendations || []).map((rec, index) => `
+    <div class="recommendation-item">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+        <div>
+          <strong>Recomendação ${index + 1}: ${rec.title}</strong>
+        </div>
+        <span class="badge ${rec.priority === 'High' ? 'badge-danger' : rec.priority === 'Medium' ? 'badge-warning' : 'badge-success'}">
+          Prioridade ${rec.priority === 'High' ? 'Alta' : rec.priority === 'Medium' ? 'Média' : 'Baixa'}
+        </span>
+      </div>
+      <div style="font-size: 9pt; color: #666; margin-bottom: 5px;">
+        <strong>Categoria:</strong> ${rec.category} | 
+        <strong>Timeline:</strong> ${rec.timeline} | 
+        <strong>Esforço:</strong> ${rec.effort}
+      </div>
+      <div style="margin-top: 8px;">
+        ${rec.description}
+      </div>
+    </div>
+  `).join('')}
+</div>
+
+<div class="section">
+  <div class="subsection-title">Próximos Passos</div>
+  
+  <div class="card">
+    <strong>Ações Imediatas (0-30 dias):</strong>
+    <ul>
+      <li>Revisar e priorizar gaps críticos identificados</li>
+      <li>Designar responsáveis para atividades de remediação</li>
+      <li>Agendar assessments de acompanhamento</li>
+      <li>Iniciar documentação de procedimentos críticos</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <strong>Metas de Curto Prazo (1-6 meses):</strong>
+    <ul>
+      <li>Implementar procedimentos de validação de backup</li>
+      <li>Iniciar projeto de validação de sistemas críticos</li>
+      <li>Aprimorar configurações de trilha de auditoria</li>
+      <li>Realizar treinamento de equipe em compliance GxP</li>
+    </ul>
+  </div>
+</div>
+
+<!-- RODAPÉ FINAL -->
+<div class="footer">
+  <strong>Relatório de Assessment GxP – Gerado Automaticamente pelo Sistema</strong><br>
+  SoftExpert © ${new Date().getFullYear()} | Documento Confidencial<br>
+  Data de Geração: ${currentDate}
+</div>
+
+</body>
+</html>
+    `;
+  };
+
   const handleDownloadPDF = async () => {
     try {
       if (!reportData || !reportData.companyInfo) {
@@ -849,7 +1303,7 @@ const ReportsPage = () => {
         return;
       }
 
-      toast.success("Gerando PDF... Por favor aguarde.");
+      toast.success("🚀 Gerando Relatório Completo em PDF... Por favor aguarde (isso pode levar alguns segundos).");
       
       try {
         const html2pdf = (await import('html2pdf.js')).default;
@@ -857,41 +1311,29 @@ const ReportsPage = () => {
         const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
-        const filename = `Relatorio_GxP_${safeCompanyName}_${dateStr}.pdf`;
+        const filename = `Relatorio_Assessment_Completo_${safeCompanyName}_${dateStr}.pdf`;
         
-        // Get the visible report content directly from DOM
-        const reportElement = document.getElementById('report-content');
+        // Generate complete structured HTML content
+        const fullContent = generateCompletePDFContent();
         
-        if (!reportElement) {
-          throw new Error('Elemento do relatório não encontrado');
-        }
-        
-        // Clone the element to modify it for PDF
-        const clonedElement = reportElement.cloneNode(true);
-        
-        // Remove buttons and interactive elements from the clone
-        const buttons = clonedElement.querySelectorAll('button');
-        buttons.forEach(btn => btn.remove());
-        
-        // Create temp container
+        // Create temporary container
         const tempDiv = document.createElement('div');
-        tempDiv.appendChild(clonedElement);
+        tempDiv.innerHTML = fullContent;
         tempDiv.style.position = 'absolute';
         tempDiv.style.left = '-99999px';
         tempDiv.style.top = '0';
         tempDiv.style.width = '210mm';
-        tempDiv.style.backgroundColor = 'white';
         document.body.appendChild(tempDiv);
         
-        // Simpler PDF options
+        // PDF configuration for complete report
         const opt = {
-          margin: [10, 10, 10, 10],
+          margin: [15, 10, 20, 10],
           filename: filename,
-          image: { type: 'jpeg', quality: 0.95 },
+          image: { type: 'jpeg', quality: 0.98 },
           html2canvas: { 
-            scale: 1.5,
+            scale: 2,
             useCORS: true,
-            logging: true,
+            logging: false,
             backgroundColor: '#ffffff',
             windowWidth: 794
           },
@@ -900,32 +1342,37 @@ const ReportsPage = () => {
             format: 'a4', 
             orientation: 'portrait'
           },
-          pagebreak: { mode: ['avoid-all', 'css'] }
+          pagebreak: { 
+            mode: ['avoid-all', 'css', 'legacy'],
+            after: '.page-break'
+          }
         };
 
-        console.log('Iniciando geração do PDF...');
+        console.log('📄 Iniciando geração do PDF completo estruturado...');
         
         // Generate PDF
         await html2pdf().set(opt).from(tempDiv).save();
         
-        console.log('PDF gerado com sucesso!');
+        console.log('✅ PDF completo gerado com sucesso!');
         
         // Clean up
         setTimeout(() => {
           if (tempDiv && tempDiv.parentNode) {
             document.body.removeChild(tempDiv);
           }
-        }, 500);
+        }, 1000);
         
-        toast.success(`✅ PDF baixado: ${filename}`);
+        toast.success(`✅ Relatório Completo Baixado com Sucesso!\n\nArquivo: ${filename}\n\nO PDF contém todas as 7 seções estruturadas com dados completos.`, {
+          duration: 6000
+        });
         
       } catch (pdfError) {
-        console.error('Erro detalhado do PDF:', pdfError);
+        console.error('❌ Erro detalhado do PDF:', pdfError);
         toast.error(`Erro ao gerar PDF: ${pdfError.message || 'Erro desconhecido'}`);
       }
       
     } catch (error) {
-      console.error('Erro geral:', error);
+      console.error('❌ Erro geral:', error);
       toast.error("Erro ao preparar relatório para PDF.");
     }
   };

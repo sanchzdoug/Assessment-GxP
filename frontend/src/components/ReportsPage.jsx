@@ -21,6 +21,83 @@ const formatCurrency = (value) => {
   }).format(value || 0);
 };
 
+// Helper functions for detailed gap analysis
+const getRegulationByArea = (areaId) => {
+  const regulations = {
+    'quality': '21 CFR Part 11, EU GMP Annex 11',
+    'validation': 'GAMP 5, CSV Guidelines',
+    'it': 'RDC 658/2022, IN 134/2022',
+    'security': 'LGPD, ISO 27001',
+    'production': 'EU GMP, FDA cGMP',
+    'laboratory': 'ALCOA+, GLP Guidelines',
+    'supply': 'GDP Guidelines, Serialização'
+  };
+  return regulations[areaId] || 'Requisitos GxP Gerais';
+};
+
+const getRecommendationByArea = (areaId, score) => {
+  const recommendations = {
+    'quality': score === 0 ? 'Implementar sistema de gestão da qualidade completo' : 
+               score === 1 ? 'Revisar e fortalecer procedimentos de qualidade' : 
+               'Aprimorar controles de qualidade existentes',
+    'validation': score === 0 ? 'Estabelecer programa de validação de sistemas' : 
+                  score === 1 ? 'Completar validações pendentes' : 
+                  'Revisar documentação de validação',
+    'it': score === 0 ? 'Implementar governança de TI para GxP' : 
+          score === 1 ? 'Fortalecer controles de infraestrutura' : 
+          'Aprimorar gestão de mudanças em TI',
+    'security': score === 0 ? 'Implementar programa de segurança da informação' : 
+                score === 1 ? 'Fortalecer controles de acesso' : 
+                'Revisar políticas de segurança',
+    'production': score === 0 ? 'Implementar controles de produção GxP' : 
+                  score === 1 ? 'Revisar procedimentos de fabricação' : 
+                  'Aprimorar controles de processo',
+    'laboratory': score === 0 ? 'Implementar controles laboratoriais ALCOA+' : 
+                  score === 1 ? 'Revisar procedimentos analíticos' : 
+                  'Fortalecer integridade de dados laboratoriais',
+    'supply': score === 0 ? 'Implementar controles de cadeia de suprimentos' : 
+              score === 1 ? 'Revisar qualificação de fornecedores' : 
+              'Aprimorar rastreabilidade de produtos'
+  };
+  return recommendations[areaId] || 'Implementar melhorias nos processos';
+};
+
+const getActionsByScore = (score) => {
+  if (score === 0) {
+    return ['Implementar processo completo', 'Treinar equipe', 'Criar documentação', 'Estabelecer controles'];
+  } else if (score === 1) {
+    return ['Revisar processo atual', 'Corrigir não conformidades', 'Atualizar documentação', 'Reforçar treinamentos'];
+  } else {
+    return ['Aprimorar processo existente', 'Otimizar controles', 'Atualizar procedimentos'];
+  }
+};
+
+const getResponsibleByArea = (areaId) => {
+  const responsible = {
+    'quality': 'Gerente da Qualidade',
+    'validation': 'Especialista em Validação',
+    'it': 'Gerente de TI',
+    'security': 'Responsável pela Segurança da Informação',
+    'production': 'Gerente de Produção',
+    'laboratory': 'Gerente do Laboratório',
+    'supply': 'Gerente de Supply Chain'
+  };
+  return responsible[areaId] || 'Gerente da Qualidade';
+};
+
+const getResourcesByArea = (areaId) => {
+  const resources = {
+    'quality': 'Equipe da Qualidade + Consultoria especializada',
+    'validation': 'Equipe de Validação + Fornecedor de sistema',
+    'it': 'Equipe de TI + Consultoria técnica',
+    'security': 'Equipe de Segurança + Auditoria externa',
+    'production': 'Equipe de Produção + Engenharia',
+    'laboratory': 'Equipe do Laboratório + Consultoria analítica',
+    'supply': 'Equipe de Suprimentos + Auditoria de fornecedores'
+  };
+  return resources[areaId] || 'Equipe interna + consultoria externa';
+};
+
 const ReportsPage = () => {
   const [reportData, setReportData] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);

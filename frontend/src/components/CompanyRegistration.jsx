@@ -46,7 +46,7 @@ const CompanyRegistration = () => {
     setIsSubmitting(true);
 
     // Validate required fields
-    if (!formData.companyName || !formData.cnpj || !formData.segment || !formData.companySize) {
+    if (!formData.name || !formData.cnpj || !formData.segment || !formData.size) {
       toast.error("Por favor, preencha todos os campos obrigatórios");
       setIsSubmitting(false);
       return;

@@ -414,6 +414,11 @@ const ReportsPage = () => {
 
   const handleDownloadPDF = async () => {
     try {
+      if (!reportData || !reportData.companyInfo) {
+        toast.error("Dados do relatório não disponíveis");
+        return;
+      }
+
       toast.success("Iniciando geração do PDF...");
       
       // Get the report content
@@ -428,16 +433,26 @@ const ReportsPage = () => {
       try {
         const html2pdf = (await import('html2pdf.js')).default;
         
+        if (!html2pdf) {
+          throw new Error('html2pdf library not loaded');
+        }
+        
+        const companyName = reportData.companyInfo.name || 'Empresa';
+        const safeCompanyName = companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+        const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
+        
         const opt = {
           margin: [10, 10, 10, 10],
-          filename: `Assessment_${(reportData.companyInfo?.name || 'Empresa').replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`,
-          image: { type: 'jpeg', quality: 0.85 },
+          filename: `Assessment_${safeCompanyName}_${dateStr}.pdf`,
+          image: { type: 'jpeg', quality: 0.8 },
           html2canvas: { 
-            scale: 1.5,
+            scale: 1.2,
             useCORS: true,
             logging: false,
             allowTaint: true,
-            backgroundColor: '#ffffff'
+            backgroundColor: '#ffffff',
+            width: element.scrollWidth,
+            height: element.scrollHeight
           },
           jsPDF: { 
             unit: 'mm', 
@@ -447,9 +462,15 @@ const ReportsPage = () => {
           pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
 
-        // Create PDF
+        // Create PDF with more robust error handling
         const pdf = html2pdf().set(opt).from(element);
+        
+        // Wait for the PDF to be generated
         const pdfBlob = await pdf.outputPdf('blob');
+        
+        if (!pdfBlob || pdfBlob.size === 0) {
+          throw new Error('PDF blob is empty or invalid');
+        }
         
         // Create download link
         const url = URL.createObjectURL(pdfBlob);
@@ -470,56 +491,85 @@ const ReportsPage = () => {
         return;
         
       } catch (html2pdfError) {
-        console.warn('html2pdf failed:', html2pdfError);
-        throw new Error('html2pdf method failed');
+        console.warn('html2pdf failed:', html2pdfError.message || html2pdfError);
+        throw new Error(`html2pdf method failed: ${html2pdfError.message || 'Unknown error'}`);
       }
       
     } catch (error) {
-      console.error('Erro ao gerar PDF:', error);
+      console.error('Erro ao gerar PDF:', error.message || error);
       
-      // Method 2: Fallback to browser print with custom CSS
+      // Method 2: Fallback to creating a new window with print-friendly content
       try {
-        toast.success("Usando método alternativo de impressão...");
+        toast.success("Usando método alternativo...");
         
-        // Add print-specific CSS
-        const printCSS = `
-          <style>
-            @media print {
-              body * { visibility: hidden; }
-              #report-content, #report-content * { visibility: visible; }
-              #report-content { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 20px !important;
+        const element = document.getElementById('report-content');
+        if (!element) {
+          toast.error("Conteúdo não encontrado para método alternativo");
+          return;
+        }
+        
+        // Create a new window with just the report content
+        const printWindow = window.open('', '_blank', 'width=800,height=600');
+        
+        if (!printWindow) {
+          toast.error("Bloqueador de pop-up ativo. Permita pop-ups e tente novamente.");
+          return;
+        }
+        
+        const printContent = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Assessment Report - ${reportData.companyInfo?.name || 'Empresa'}</title>
+            <style>
+              body { 
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                margin: 20px;
+                line-height: 1.5;
+                color: #333;
               }
               .no-print { display: none !important; }
               button { display: none !important; }
               nav { display: none !important; }
-            }
-          </style>
+              h1, h2, h3 { color: #1e40af; margin-top: 1.5em; }
+              .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 16px 0; }
+              .badge { 
+                background: #f3f4f6; 
+                color: #374151; 
+                padding: 2px 8px; 
+                border-radius: 12px; 
+                font-size: 12px; 
+                display: inline-block;
+                margin: 2px;
+              }
+              @media print {
+                body { margin: 0; }
+                .card { break-inside: avoid; }
+              }
+            </style>
+          </head>
+          <body>
+            ${element.innerHTML}
+            <script>
+              window.onload = function() {
+                setTimeout(function() {
+                  window.print();
+                  window.close();
+                }, 500);
+              };
+            </script>
+          </body>
+          </html>
         `;
         
-        const head = document.head || document.getElementsByTagName('head')[0];
-        const style = document.createElement('style');
-        style.innerHTML = printCSS;
-        head.appendChild(style);
+        printWindow.document.write(printContent);
+        printWindow.document.close();
         
-        // Open print dialog
-        window.print();
-        
-        // Remove the style after printing
-        setTimeout(() => {
-          head.removeChild(style);
-        }, 1000);
-        
-        toast.success("Dialog de impressão aberto. Use 'Salvar como PDF' nas opções.");
+        toast.success("Janela de impressão aberta. Use 'Salvar como PDF' nas opções de impressão.");
         
       } catch (printError) {
         console.error('Print fallback failed:', printError);
-        toast.error("Erro ao abrir dialog de impressão. Tente novamente mais tarde.");
+        toast.error("Todos os métodos de exportação falharam. Tente usar Ctrl+P e salvar como PDF.");
       }
     }
   };

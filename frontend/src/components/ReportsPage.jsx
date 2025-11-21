@@ -606,6 +606,9 @@ const ReportsPage = () => {
         <!-- Página 1: Capa e Resumo Executivo -->
         <div class="page">
           <div class="header">
+            <div style="text-align: center; margin-bottom: 20px;">
+              <h3 style="color: #1e40af; font-size: 28px; font-weight: bold; margin: 0;">SoftExpert</h3>
+            </div>
             <h1>Relatório de Assessment GxP</h1>
             <h2>Análise Abrangente de Compliance Regulatório</h2>
             <p style="margin-top: 15px;"><strong>Empresa:</strong> ${companyName}</p>

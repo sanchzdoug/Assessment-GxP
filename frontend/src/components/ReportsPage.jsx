@@ -276,11 +276,12 @@ const ReportsPage = () => {
     
     // Generate real report from assessment data
     const realReportData = {
-      companyInfo: assessmentResults.companyData || {
-        name: "Empresa Não Informada",
-        segment: "Segmento Não Informado",
-        employees: 0,
-        type: "Headquarters"
+      companyInfo: {
+        name: assessmentResults.companyData?.name || companyData.name || "Empresa Não Informada",
+        segment: assessmentResults.companyData?.segment || companyData.segment || "Segmento Não Informado",
+        employees: assessmentResults.companyData?.employees || companyData.employees || 0,
+        type: assessmentResults.companyData?.type || companyData.type || "Headquarters",
+        size: assessmentResults.companyData?.size || companyData.size || "Médio"
       },
       overallScore: assessmentResults.overallScore || 0,
       assessmentDate: assessmentResults.completedAt || new Date().toISOString(),

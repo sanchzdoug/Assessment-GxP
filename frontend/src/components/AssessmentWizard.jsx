@@ -14,9 +14,30 @@ import { toast } from 'sonner';
 
 const AssessmentWizard = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [responses, setResponses] = useState({});
   const [isSaving, setIsSaving] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [assessmentId, setAssessmentId] = useState(null);
+
+  // Load existing assessment data if in edit mode
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const editId = searchParams.get('edit');
+    
+    if (editId) {
+      setEditMode(true);
+      setAssessmentId(editId);
+      
+      // Load existing assessment data
+      const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+      if (assessmentResults.responses) {
+        setResponses(assessmentResults.responses);
+        toast.success("Dados do assessment carregados para edição");
+      }
+    }
+  }, [location]);
 
   const assessmentAreas = [
     {

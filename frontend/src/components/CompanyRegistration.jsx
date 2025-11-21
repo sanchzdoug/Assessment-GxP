@@ -23,14 +23,14 @@ const CompanyRegistration = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const segments = [
-    "Pharmaceutical",
-    "Biotechnology", 
-    "Medical Devices",
-    "Veterinary",
-    "Cosmetics",
-    "Chemical",
-    "Contract Research Organization (CRO)",
-    "Contract Manufacturing Organization (CMO)"
+    "Farmacêutico",
+    "Biotecnologia", 
+    "Dispositivos Médicos",
+    "Veterinário",
+    "Cosméticos",
+    "Químico",
+    "Organização de Pesquisa por Contrato (CRO)",
+    "Organização de Fabricação por Contrato (CMO)"
   ];
 
   const companySizes = [

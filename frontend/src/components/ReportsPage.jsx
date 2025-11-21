@@ -988,8 +988,8 @@ const ReportsPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="animate-spin w-12 h-12 border-4 border-primary border-t-transparent rounded-full mx-auto" />
-          <h2 className="text-xl font-semibold text-foreground">Generating Comprehensive Report...</h2>
-          <p className="text-muted-foreground">Analyzing assessment data and calculating compliance scores</p>
+          <h2 className="text-xl font-semibold text-foreground">Gerando Relatório Completo...</h2>
+          <p className="text-muted-foreground">Analisando dados do assessment e calculando scores de compliance</p>
         </div>
       </div>
     );
@@ -1000,10 +1000,10 @@ const ReportsPage = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center space-y-4">
           <AlertTriangle className="h-12 w-12 text-warning mx-auto" />
-          <h2 className="text-xl font-semibold text-foreground">No Report Data Available</h2>
-          <p className="text-muted-foreground">Complete the assessment to generate your report</p>
+          <h2 className="text-xl font-semibold text-foreground">Dados do Relatório Não Disponíveis</h2>
+          <p className="text-muted-foreground">Complete o assessment para gerar seu relatório</p>
           <Link to="/assessment">
-            <Button>Start Assessment</Button>
+            <Button>Iniciar Assessment</Button>
           </Link>
         </div>
       </div>

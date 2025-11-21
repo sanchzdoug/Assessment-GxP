@@ -12,6 +12,14 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Utility function to format currency in Brazilian Real
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).format(value || 0);
+};
+
 const ReportsPage = () => {
   const [reportData, setReportData] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);

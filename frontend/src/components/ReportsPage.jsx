@@ -1130,7 +1130,7 @@ const ReportsPage = () => {
                     Assessment de Maturidade por Área de Negócio
                   </CardTitle>
                   <CardDescription>
-                    Detailed scoring across all evaluated business functions
+                    Pontuação detalhada em todas as funções de negócio avaliadas
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -1141,10 +1141,10 @@ const ReportsPage = () => {
                           <div className="flex items-center gap-3">
                             <h3 className="font-semibold text-foreground">{area.area}</h3>
                             <Badge className={getScoreBadge(area.score)}>
-                              {area.status}
+                              {area.status === 'excellent' ? 'excelente' : area.status === 'good' ? 'bom' : 'moderado'}
                             </Badge>
                             <Badge variant="outline" className="text-xs">
-                              Weight: {area.weight}%
+                              Peso: {area.weight}%
                             </Badge>
                           </div>
                           <div className="flex items-center gap-2">
@@ -1171,10 +1171,10 @@ const ReportsPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <AlertTriangle className="h-5 w-5" />
-                    Critical Compliance Gaps
+                    Gaps Críticos de Compliance
                   </CardTitle>
                   <CardDescription>
-                    High-priority issues requiring immediate attention
+                    Questões de alta prioridade que requerem atenção imediata
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

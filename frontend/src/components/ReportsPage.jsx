@@ -1115,11 +1115,11 @@ const ReportsPage = () => {
           {/* Main Report Content */}
           <Tabs defaultValue="scores" className="space-y-6">
             <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="scores">Area Scores</TabsTrigger>
-              <TabsTrigger value="gaps">Critical Gaps</TabsTrigger>
-              <TabsTrigger value="compliance">Regulatory</TabsTrigger>
-              <TabsTrigger value="systems">Systems & Costs</TabsTrigger>
-              <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
+              <TabsTrigger value="scores">Scores por Área</TabsTrigger>
+              <TabsTrigger value="gaps">Gaps Críticos</TabsTrigger>
+              <TabsTrigger value="compliance">Regulatório</TabsTrigger>
+              <TabsTrigger value="systems">Sistemas & Custos</TabsTrigger>
+              <TabsTrigger value="recommendations">Recomendações</TabsTrigger>
             </TabsList>
 
             <TabsContent value="scores" className="space-y-4">
@@ -1127,7 +1127,7 @@ const ReportsPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BarChart3 className="h-5 w-5" />
-                    Maturity Assessment by Business Area
+                    Assessment de Maturidade por Área de Negócio
                   </CardTitle>
                   <CardDescription>
                     Detailed scoring across all evaluated business functions

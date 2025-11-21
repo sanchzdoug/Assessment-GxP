@@ -608,7 +608,7 @@ const ReportsPage = () => {
                         <div className="flex justify-between items-center p-3 bg-primary-light rounded-lg">
                           <span className="font-semibold text-primary">Total Annual Investment</span>
                           <span className="font-bold text-primary text-lg">
-                            ${reportData.systemsCost.totalAnnual.toLocaleString()}
+                            {formatCurrency(reportData.systemsCost.totalAnnual)}
                           </span>
                         </div>
                       </div>

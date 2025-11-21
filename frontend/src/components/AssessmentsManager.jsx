@@ -364,6 +364,12 @@ const AssessmentsManager = () => {
                           Visualizar
                         </Button>
                       </Link>
+                      <Link to={`/assessment?edit=${assessment.id}`}>
+                        <Button variant="outline" size="sm">
+                          <Edit className="h-4 w-4 mr-1" />
+                          Editar
+                        </Button>
+                      </Link>
                       {assessment.status === 'completed' && (
                         <Button variant="outline" size="sm">
                           <Download className="h-4 w-4 mr-1" />

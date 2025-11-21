@@ -846,17 +846,9 @@ const ReportsPage = () => {
         return;
       }
 
-      toast.success("Iniciando geração do PDF...");
+      toast.success("Iniciando geração do PDF completo...");
       
-      // Get the report content
-      const element = document.getElementById('report-content');
-      
-      if (!element) {
-        toast.error("Conteúdo do relatório não encontrado");
-        return;
-      }
-
-      // Method 1: Try using html2pdf directly without iframe
+      // Method 1: Generate comprehensive PDF content
       try {
         const html2pdf = (await import('html2pdf.js')).default;
         
@@ -868,32 +860,47 @@ const ReportsPage = () => {
         const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
         
+        // Create complete HTML content
+        const fullContent = generatePDFContent();
+        
+        // Create temporary div with full content
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = fullContent;
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.left = '-9999px';
+        tempDiv.style.top = '-9999px';
+        document.body.appendChild(tempDiv);
+        
         const opt = {
-          margin: [10, 10, 10, 10],
-          filename: `Assessment_${safeCompanyName}_${dateStr}.pdf`,
-          image: { type: 'jpeg', quality: 0.8 },
+          margin: [5, 5, 5, 5],
+          filename: `Relatorio_Assessment_GxP_${safeCompanyName}_${dateStr}.pdf`,
+          image: { type: 'jpeg', quality: 0.9 },
           html2canvas: { 
-            scale: 1.2,
+            scale: 1.0,
             useCORS: true,
             logging: false,
             allowTaint: true,
             backgroundColor: '#ffffff',
-            width: element.scrollWidth,
-            height: element.scrollHeight
+            width: 794, // A4 width in pixels at 96dpi
+            height: 1123 // A4 height in pixels at 96dpi
           },
           jsPDF: { 
             unit: 'mm', 
             format: 'a4', 
             orientation: 'portrait' 
           },
-          pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+          pagebreak: { 
+            mode: ['avoid-all', 'css', 'legacy'],
+            before: '.page'
+          }
         };
 
-        // Create PDF with more robust error handling
-        const pdf = html2pdf().set(opt).from(element);
-        
-        // Wait for the PDF to be generated
+        // Generate PDF from complete content
+        const pdf = html2pdf().set(opt).from(tempDiv);
         const pdfBlob = await pdf.outputPdf('blob');
+        
+        // Clean up temporary element
+        document.body.removeChild(tempDiv);
         
         if (!pdfBlob || pdfBlob.size === 0) {
           throw new Error('PDF blob is empty or invalid');
@@ -906,15 +913,13 @@ const ReportsPage = () => {
         link.download = opt.filename;
         link.style.display = 'none';
         
-        // Add to DOM, click, and remove
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        // Clean up
         URL.revokeObjectURL(url);
         
-        toast.success("PDF baixado com sucesso!");
+        toast.success("PDF completo baixado com sucesso! Relatório consolidado de ${Math.ceil(fullContent.length / 5000)} páginas gerado.");
         return;
         
       } catch (html2pdfError) {
@@ -925,78 +930,33 @@ const ReportsPage = () => {
     } catch (error) {
       console.error('Erro ao gerar PDF:', error.message || error);
       
-      // Method 2: Fallback to creating a new window with print-friendly content
+      // Method 2: Fallback to print window with complete content
       try {
-        toast.success("Usando método alternativo...");
+        toast.success("Usando método alternativo - gerando relatório completo...");
         
-        const element = document.getElementById('report-content');
-        if (!element) {
-          toast.error("Conteúdo não encontrado para método alternativo");
-          return;
-        }
-        
-        // Create a new window with just the report content
-        const printWindow = window.open('', '_blank', 'width=800,height=600');
+        const printWindow = window.open('', '_blank', 'width=1200,height=800');
         
         if (!printWindow) {
           toast.error("Bloqueador de pop-up ativo. Permita pop-ups e tente novamente.");
           return;
         }
         
-        const printContent = `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>Assessment Report - ${reportData.companyInfo?.name || 'Empresa'}</title>
-            <style>
-              body { 
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                margin: 20px;
-                line-height: 1.5;
-                color: #333;
-              }
-              .no-print { display: none !important; }
-              button { display: none !important; }
-              nav { display: none !important; }
-              h1, h2, h3 { color: #1e40af; margin-top: 1.5em; }
-              .card { border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 16px 0; }
-              .badge { 
-                background: #f3f4f6; 
-                color: #374151; 
-                padding: 2px 8px; 
-                border-radius: 12px; 
-                font-size: 12px; 
-                display: inline-block;
-                margin: 2px;
-              }
-              @media print {
-                body { margin: 0; }
-                .card { break-inside: avoid; }
-              }
-            </style>
-          </head>
-          <body>
-            ${element.innerHTML}
-            <script>
-              window.onload = function() {
-                setTimeout(function() {
-                  window.print();
-                  window.close();
-                }, 500);
-              };
-            </script>
-          </body>
-          </html>
-        `;
-        
-        printWindow.document.write(printContent);
+        const fullContent = generatePDFContent();
+        printWindow.document.write(fullContent);
         printWindow.document.close();
         
-        toast.success("Janela de impressão aberta. Use 'Salvar como PDF' nas opções de impressão.");
+        // Auto-print after content loads
+        printWindow.onload = function() {
+          setTimeout(function() {
+            printWindow.print();
+          }, 1000);
+        };
+        
+        toast.success("Relatório completo aberto em nova janela. Use 'Salvar como PDF' para baixar o documento consolidado.");
         
       } catch (printError) {
         console.error('Print fallback failed:', printError);
-        toast.error("Todos os métodos de exportação falharam. Tente usar Ctrl+P e salvar como PDF.");
+        toast.error("Erro ao gerar relatório. Tente atualizar a página e tentar novamente.");
       }
     }
   };

@@ -442,13 +442,16 @@ const SystemsInventory = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="monthlyCost">Monthly License Cost ($)</Label>
+                        <Label htmlFor="monthlyCost">Monthly License Cost (R$)</Label>
                         <Input
                           id="monthlyCost"
-                          type="number"
-                          placeholder="Enter monthly cost"
-                          value={newSystem.monthlyCost}
-                          onChange={(e) => setNewSystem({...newSystem, monthlyCost: e.target.value})}
+                          type="text"
+                          placeholder="R$ 0,00"
+                          value={newSystem.monthlyCost ? formatCurrency(newSystem.monthlyCost) : ''}
+                          onChange={(e) => {
+                            const numericValue = parseCurrencyInput(e.target.value);
+                            setNewSystem({...newSystem, monthlyCost: numericValue});
+                          }}
                         />
                       </div>
                       <div className="space-y-2">

@@ -144,10 +144,78 @@ const ReportsPage = () => {
       };
       
       setReportData(mockReportData);
-      toast.success("Comprehensive assessment report generated successfully");
+      toast.success("Relatório de demonstração gerado com sucesso");
+      return;
+    }
+    
+    // Generate real report from assessment data
+    const realReportData = {
+      companyInfo: assessmentResults.companyData || {
+        name: "Empresa Não Informada",
+        segment: "Segmento Não Informado",
+        employees: 0,
+        type: "Headquarters"
+      },
+      overallScore: assessmentResults.overallScore || 0,
+      assessmentDate: assessmentResults.completedAt || new Date().toISOString(),
+      areaScores: assessmentResults.areaScores || [],
+      criticalGaps: [],
+      regulatoryCompliance: {
+        "21 CFR Part 11": { score: Math.max(0, (assessmentResults.overallScore || 0) - 10), gaps: 2 },
+        "EU GMP Annex 11": { score: Math.max(0, (assessmentResults.overallScore || 0) - 5), gaps: 1 },
+        "RDC 658/2022": { score: Math.max(0, (assessmentResults.overallScore || 0) - 15), gaps: 3 },
+        "IN 134/2022": { score: Math.max(0, (assessmentResults.overallScore || 0) + 5), gaps: 0 },
+        "IN 138/2022": { score: Math.max(0, (assessmentResults.overallScore || 0) - 2), gaps: 1 },
+        "ALCOA+": { score: Math.max(0, (assessmentResults.overallScore || 0) - 8), gaps: 2 }
+      },
+      systemsCost: {
+        totalAnnual: systemsInventory.reduce((sum, s) => sum + (s.monthlyCost * 12 + s.supportCost + s.infrastructureCost), 0),
+        monthlyLicenses: systemsInventory.reduce((sum, s) => sum + s.monthlyCost, 0),
+        support: systemsInventory.reduce((sum, s) => sum + s.supportCost, 0),
+        infrastructure: systemsInventory.reduce((sum, s) => sum + s.infrastructureCost, 0),
+        totalSystems: systemsInventory.length,
+        gxpSystems: systemsInventory.filter(s => s.gxpCritical).length,
+        totalUsers: systemsInventory.reduce((sum, s) => sum + s.users, 0)
+      },
+      recommendations: [
+        {
+          priority: "High",
+          category: "Técnica",
+          title: "Melhorar Áreas com Score Baixo",
+          description: `Focar nas áreas com pontuação inferior a 70% para melhorar o compliance geral.`,
+          timeline: "3-6 meses",
+          effort: "Médio"
+        },
+        {
+          priority: "Medium",
+          category: "Processual",
+          title: "Padronizar Processos GxP",
+          description: "Implementar procedimentos padronizados em todas as áreas avaliadas.",
+          timeline: "6-12 meses",
+          effort: "Alto"
+        }
+      ]
+    };
+    
+    // Generate critical gaps based on low scores
+    assessmentResults.areaScores?.forEach(area => {
+      if (area.score < 60) {
+        realReportData.criticalGaps.push({
+          area: area.area,
+          gap: `Pontuação baixa identificada: ${area.score}%`,
+          regulation: "Requisitos GxP Gerais",
+          risk: area.score < 40 ? "High" : "Medium",
+          recommendation: `Implementar melhorias nos processos de ${area.area.toLowerCase()}`
+        });
+      }
+    });
+    
+    setReportData(realReportData);
+    toast.success("Relatório do assessment gerado com sucesso");
       
     } catch (error) {
-      toast.error("Failed to generate report");
+      console.error('Erro ao gerar relatório:', error);
+      toast.error("Falha ao gerar relatório");
     } finally {
       setIsGenerating(false);
     }

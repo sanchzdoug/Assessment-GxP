@@ -455,13 +455,16 @@ const SystemsInventory = () => {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="supportCost">Annual Support Cost ($)</Label>
+                        <Label htmlFor="supportCost">Annual Support Cost (R$)</Label>
                         <Input
                           id="supportCost"
-                          type="number"
-                          placeholder="Enter support cost"
-                          value={newSystem.supportCost}
-                          onChange={(e) => setNewSystem({...newSystem, supportCost: e.target.value})}
+                          type="text"
+                          placeholder="R$ 0,00"
+                          value={newSystem.supportCost ? formatCurrency(newSystem.supportCost) : ''}
+                          onChange={(e) => {
+                            const numericValue = parseCurrencyInput(e.target.value);
+                            setNewSystem({...newSystem, supportCost: numericValue});
+                          }}
                         />
                       </div>
                       <div className="col-span-2">

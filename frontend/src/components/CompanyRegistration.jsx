@@ -47,7 +47,7 @@ const CompanyRegistration = () => {
 
     // Validate required fields
     if (!formData.companyName || !formData.cnpj || !formData.segment || !formData.companySize) {
-      toast.error("Please fill in all required fields");
+      toast.error("Por favor, preencha todos os campos obrigatórios");
       setIsSubmitting(false);
       return;
     }
@@ -59,7 +59,7 @@ const CompanyRegistration = () => {
       // Store company data in localStorage (mock)
       localStorage.setItem('companyData', JSON.stringify(formData));
       
-      toast.success("Company registered successfully!");
+      toast.success("Empresa registrada com sucesso!");
       
       // Navigate to assessment
       setTimeout(() => {
@@ -67,7 +67,7 @@ const CompanyRegistration = () => {
       }, 1000);
       
     } catch (error) {
-      toast.error("Registration failed. Please try again.");
+      toast.error("Falha no registro. Por favor, tente novamente.");
     } finally {
       setIsSubmitting(false);
     }
@@ -89,7 +89,7 @@ const CompanyRegistration = () => {
           <Link to="/">
             <Button variant="outline" className="flex items-center gap-2">
               <ChevronLeft className="h-4 w-4" />
-              Back to Home
+              Voltar para Início
             </Button>
           </Link>
         </div>
@@ -241,7 +241,7 @@ const CompanyRegistration = () => {
                       <>Setting up your assessment...</>
                     ) : (
                       <>
-                        Continue to Assessment
+                        Continuar para Assessment
                         <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
@@ -259,7 +259,7 @@ const CompanyRegistration = () => {
                   <Users className="h-5 w-5 text-white" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="font-semibold text-foreground">What happens next?</h3>
+                  <h3 className="font-semibold text-foreground">O que acontece a seguir?</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
                     After registration, you'll proceed to our comprehensive assessment wizard covering 12 key areas of GxP compliance. 
                     The assessment typically takes 30-45 minutes to complete and can be saved and resumed at any time.

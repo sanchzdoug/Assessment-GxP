@@ -430,7 +430,7 @@ const ReportsPage = () => {
         
         const opt = {
           margin: [10, 10, 10, 10],
-          filename: `Assessment_${reportData.companyInfo.name.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`,
+          filename: `Assessment_${(reportData.companyInfo?.name || 'Empresa').replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().toLocaleDateString('pt-BR').replace(/\//g, '-')}.pdf`,
           image: { type: 'jpeg', quality: 0.85 },
           html2canvas: { 
             scale: 1.5,

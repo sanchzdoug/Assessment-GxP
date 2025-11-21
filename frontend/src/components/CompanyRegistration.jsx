@@ -100,10 +100,10 @@ const CompanyRegistration = () => {
           {/* Header */}
           <div className="text-center mb-8 space-y-4">
             <h1 className="text-3xl sm:text-4xl font-space-grotesk font-bold text-foreground">
-              Company Registration
+              Registro da Empresa
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Tell us about your organization to customize your GxP compliance assessment experience.
+              Conte-nos sobre sua organização para personalizar sua experiência de assessment de compliance GxP.
             </p>
           </div>
 
@@ -112,22 +112,22 @@ const CompanyRegistration = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-foreground">
                 <Building className="h-5 w-5" />
-                Organization Information
+                Informações da Organização
               </CardTitle>
               <CardDescription>
-                Provide basic information about your Life Sciences organization.
+                Forneça informações básicas sobre sua organização de Life Sciences.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Company Name */}
+                {/* Nome da Empresa */}
                 <div className="space-y-2">
                   <Label htmlFor="companyName" className="text-foreground font-medium">
-                    Company Name *
+                    Nome da Empresa *
                   </Label>
                   <Input
                     id="companyName"
-                    placeholder="Enter your company name"
+                    placeholder="Digite o nome da sua empresa"
                     value={formData.companyName}
                     onChange={(e) => updateFormData('companyName', e.target.value)}
                     required
@@ -150,14 +150,14 @@ const CompanyRegistration = () => {
                   />
                 </div>
 
-                {/* Industry Segment */}
+                {/* Segmento Industrial */}
                 <div className="space-y-2">
                   <Label htmlFor="segment" className="text-foreground font-medium">
-                    Industry Segment *
+                    Segmento Industrial *
                   </Label>
                   <Select value={formData.segment} onValueChange={(value) => updateFormData('segment', value)}>
                     <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select your industry segment" />
+                      <SelectValue placeholder="Selecione seu segmento industrial" />
                     </SelectTrigger>
                     <SelectContent>
                       {segments.map((segment) => (

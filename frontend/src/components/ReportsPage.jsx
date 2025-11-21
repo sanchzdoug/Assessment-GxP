@@ -437,8 +437,8 @@ const ReportsPage = () => {
           throw new Error('html2pdf library not loaded');
         }
         
-        const companyName = reportData.companyInfo.name || 'Empresa';
-        const safeCompanyName = companyName.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
+        const companyName = (reportData.companyInfo && reportData.companyInfo.name) || 'Empresa';
+        const safeCompanyName = String(companyName).replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_');
         const dateStr = new Date().toLocaleDateString('pt-BR').replace(/\//g, '-');
         
         const opt = {

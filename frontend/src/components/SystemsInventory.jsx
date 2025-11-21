@@ -580,7 +580,7 @@ const SystemsInventory = () => {
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-muted-foreground">
-                    ${(totalCosts.monthly / 1000).toFixed(0)}K monthly licenses
+                    {formatCurrency(totalCosts.monthly)} mensais
                   </p>
                 </div>
               </CardContent>

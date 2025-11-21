@@ -1257,39 +1257,39 @@ const ReportsPage = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <DollarSign className="h-5 w-5" />
-                      Systems Cost Analysis
+                      Análise de Custos de Sistemas
                     </CardTitle>
-                    <CardDescription>Annual IT investment breakdown</CardDescription>
+                    <CardDescription>Detalhamento do investimento anual em TI</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm text-muted-foreground">Monthly Licenses</span>
+                        <span className="text-sm text-muted-foreground">Licenças Mensais</span>
                         <span className="font-bold text-foreground">
                           {formatCurrency(reportData.systemsCost.monthlyLicenses)}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm text-muted-foreground">Annual Licenses</span>
+                        <span className="text-sm text-muted-foreground">Licenças Anuais (automático)</span>
                         <span className="font-bold text-foreground">
                           {formatCurrency(reportData.systemsCost.monthlyLicenses * 12)}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm text-muted-foreground">Support & Maintenance</span>
+                        <span className="text-sm text-muted-foreground">Suporte & Manutenção</span>
                         <span className="font-bold text-foreground">
                           {formatCurrency(reportData.systemsCost.support)}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
-                        <span className="text-sm text-muted-foreground">Infrastructure</span>
+                        <span className="text-sm text-muted-foreground">Infraestrutura</span>
                         <span className="font-bold text-foreground">
                           {formatCurrency(reportData.systemsCost.infrastructure)}
                         </span>
                       </div>
                       <div className="border-t pt-3">
                         <div className="flex justify-between items-center p-3 bg-primary-light rounded-lg">
-                          <span className="font-semibold text-primary">Total Annual Investment</span>
+                          <span className="font-semibold text-primary">Investimento Anual Total</span>
                           <span className="font-bold text-primary text-lg">
                             {formatCurrency(reportData.systemsCost.totalAnnual)}
                           </span>
@@ -1303,9 +1303,9 @@ const ReportsPage = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Target className="h-5 w-5" />
-                      Systems Overview
+                      Visão Geral dos Sistemas
                     </CardTitle>
-                    <CardDescription>Key metrics and utilization</CardDescription>
+                    <CardDescription>Métricas principais e utilização</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 gap-4">

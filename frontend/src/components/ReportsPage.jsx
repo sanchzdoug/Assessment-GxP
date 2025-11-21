@@ -700,7 +700,14 @@ const ReportsPage = () => {
                             <h4 className="font-semibold text-foreground">{gap.gap}</h4>
                             <p className="text-sm text-muted-foreground">{gap.recommendation}</p>
                           </div>
-                          <Button variant="outline" size="sm">
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            onClick={() => {
+                              setSelectedGap(gap);
+                              setShowGapDetails(true);
+                            }}
+                          >
                             <Eye className="h-3 w-3 mr-1" />
                             Details
                           </Button>

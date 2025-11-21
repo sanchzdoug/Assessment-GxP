@@ -41,6 +41,8 @@ const parseCurrencyInput = (formattedValue) => {
 
 const SystemsInventory = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [editMode, setEditMode] = useState(false);
   const [systems, setSystems] = useState([
     {
       id: 1,

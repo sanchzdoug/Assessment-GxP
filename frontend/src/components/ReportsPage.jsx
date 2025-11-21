@@ -595,7 +595,7 @@ const ReportsPage = () => {
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
                         <span className="text-sm text-muted-foreground">Support & Maintenance</span>
                         <span className="font-bold text-foreground">
-                          ${reportData.systemsCost.support.toLocaleString()}
+                          {formatCurrency(reportData.systemsCost.support)}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">

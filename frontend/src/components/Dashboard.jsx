@@ -166,23 +166,23 @@ const Dashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-space-grotesk font-bold text-foreground">
-                  GxP Compliance Dashboard
+                  Dashboard de Compliance GxP
                 </h1>
                 <p className="text-muted-foreground">
-                  Overview of regulatory compliance and system maturity for {selectedCompany.name}
+                  Visão geral de compliance regulatório e maturidade de sistemas para {selectedCompany.name}
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 <Link to="/assessment">
                   <Button className="bg-primary hover:bg-primary-hover">
                     <Plus className="h-4 w-4 mr-2" />
-                    New Assessment
+                    Novo Assessment
                   </Button>
                 </Link>
                 <Link to="/reports">
                   <Button variant="outline">
                     <FileText className="h-4 w-4 mr-2" />
-                    Generate Report
+                    Gerar Relatório
                   </Button>
                 </Link>
               </div>

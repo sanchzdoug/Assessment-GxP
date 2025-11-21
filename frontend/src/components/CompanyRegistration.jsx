@@ -261,8 +261,8 @@ const CompanyRegistration = () => {
                 <div className="space-y-2">
                   <h3 className="font-semibold text-foreground">O que acontece a seguir?</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    After registration, you'll proceed to our comprehensive assessment wizard covering 12 key areas of GxP compliance. 
-                    The assessment typically takes 30-45 minutes to complete and can be saved and resumed at any time.
+                    Após o registro, você prosseguirá para nosso assistente de assessment abrangente cobrindo 12 áreas-chave de compliance GxP. 
+                    O assessment normalmente leva 30-45 minutos para completar e pode ser salvo e retomado a qualquer momento.
                   </p>
                 </div>
               </div>

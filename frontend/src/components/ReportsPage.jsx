@@ -118,16 +118,37 @@ const ReportsPage = () => {
       const searchParams = new URLSearchParams(location.search);
       const assessmentId = searchParams.get('assessment');
       
-      // Get real assessment data
-      const assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
-      const systemsInventory = JSON.parse(localStorage.getItem('systemsInventory') || '[]');
+      // Get real assessment data - try different storage keys
+      let assessmentResults = {};
+      let systemsInventory = [];
+      let companyData = {};
+      
+      if (assessmentId) {
+        // Try to get data with assessment ID as key
+        assessmentResults = JSON.parse(localStorage.getItem(`assessment_${assessmentId}`) || '{}');
+        systemsInventory = JSON.parse(localStorage.getItem(`systems_${assessmentId}`) || '[]');
+        companyData = JSON.parse(localStorage.getItem(`company_${assessmentId}`) || '{}');
+      }
+      
+      // Fallback to generic keys if assessment-specific data not found
+      if (!assessmentResults.responses && !assessmentResults.companyData) {
+        assessmentResults = JSON.parse(localStorage.getItem('assessmentResults') || '{}');
+      }
+      if (systemsInventory.length === 0) {
+        systemsInventory = JSON.parse(localStorage.getItem('systemsInventory') || '[]');
+      }
+      if (!companyData.name) {
+        companyData = JSON.parse(localStorage.getItem('companyData') || '{}');
+      }
       
       console.log('📊 Assessment ID:', assessmentId);
       console.log('📊 Assessment Results:', assessmentResults);
       console.log('📊 Systems Inventory:', systemsInventory);
+      console.log('📊 Company Data:', companyData);
+      console.log('📊 All localStorage keys:', Object.keys(localStorage));
       
       // Check if we have real assessment data
-      const hasRealData = assessmentResults.responses || assessmentResults.companyData || systemsInventory.length > 0;
+      const hasRealData = (assessmentResults.responses || assessmentResults.companyData || companyData.name || systemsInventory.length > 0);
       
       if (!hasRealData && !assessmentId) {
         // If no real data and no assessment ID, use demo data

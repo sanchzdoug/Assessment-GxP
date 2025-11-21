@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { 
   Shield, Download, Share, FileText, BarChart3, 
   AlertTriangle, CheckCircle, TrendingUp, Award,
-  Target, Users, DollarSign, Calendar, Eye
+  Target, Users, DollarSign, Calendar, Eye, Server
 } from 'lucide-react';
 import { toast } from 'sonner';
 

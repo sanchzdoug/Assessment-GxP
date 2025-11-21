@@ -440,8 +440,9 @@ const ReportsPage = () => {
       });
     }
     
+    console.log('✅ Real Report Data Generated:', realReportData);
     setReportData(realReportData);
-    toast.success("Relatório do assessment gerado com sucesso");
+    toast.success("Relatório gerado com sucesso a partir dos dados reais do assessment!");
       
     } catch (error) {
       console.error('Erro ao gerar relatório:', error);

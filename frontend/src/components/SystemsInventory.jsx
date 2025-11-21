@@ -320,7 +320,11 @@ const SystemsInventory = () => {
     // Save systems data
     localStorage.setItem('systemsInventory', JSON.stringify(systems));
     
-    toast.success("Systems inventory saved successfully!");
+    if (editMode) {
+      toast.success("Sistemas atualizados com sucesso!");
+    } else {
+      toast.success("Inventário de sistemas salvo com sucesso!");
+    }
     
     setTimeout(() => {
       navigate('/reports');

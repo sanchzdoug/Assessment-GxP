@@ -1448,10 +1448,10 @@ const ReportsPage = () => {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5" />
-                    Strategic Recommendations
+                    Recomendações Estratégicas
                   </CardTitle>
                   <CardDescription>
-                    Prioritized action plan for compliance improvement
+                    Plano de ação priorizado para melhoria de compliance
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -1462,7 +1462,7 @@ const ReportsPage = () => {
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
                               <Badge className={`text-xs ${getPriorityColor(rec.priority)}`}>
-                                {rec.priority} Priority
+                                Prioridade {rec.priority === 'High' ? 'Alta' : rec.priority === 'Medium' ? 'Média' : 'Baixa'}
                               </Badge>
                               <Badge variant="outline" className="text-xs">{rec.category}</Badge>
                               <Badge variant="outline" className="text-xs">{rec.timeline}</Badge>
@@ -1471,7 +1471,7 @@ const ReportsPage = () => {
                             <p className="text-sm text-muted-foreground">{rec.description}</p>
                           </div>
                           <div className="text-right">
-                            <div className="text-sm text-muted-foreground">Effort:</div>
+                            <div className="text-sm text-muted-foreground">Esforço:</div>
                             <div className="font-medium text-foreground">{rec.effort}</div>
                           </div>
                         </div>
@@ -1491,22 +1491,22 @@ const ReportsPage = () => {
                   <Calendar className="h-6 w-6 text-white" />
                 </div>
                 <div className="flex-1 space-y-3">
-                  <h3 className="font-semibold text-foreground">Next Steps</h3>
+                  <h3 className="font-semibold text-foreground">Próximos Passos</h3>
                   <div className="grid md:grid-cols-2 gap-4 text-sm">
                     <div>
-                      <h4 className="font-medium text-foreground mb-2">Immediate Actions (0-30 days):</h4>
+                      <h4 className="font-medium text-foreground mb-2">Ações Imediatas (0-30 dias):</h4>
                       <ul className="space-y-1 text-muted-foreground">
-                        <li>• Review and prioritize critical gaps</li>
-                        <li>• Assign ownership for remediation activities</li>
-                        <li>• Schedule follow-up assessments</li>
+                        <li>• Revisar e priorizar gaps críticos</li>
+                        <li>• Designar responsáveis para atividades de remediação</li>
+                        <li>• Agendar assessments de acompanhamento</li>
                       </ul>
                     </div>
                     <div>
-                      <h4 className="font-medium text-foreground mb-2">Short-term Goals (1-6 months):</h4>
+                      <h4 className="font-medium text-foreground mb-2">Metas de Curto Prazo (1-6 meses):</h4>
                       <ul className="space-y-1 text-muted-foreground">
-                        <li>• Implement backup validation procedures</li>
-                        <li>• Begin WMS validation project</li>
-                        <li>• Enhance audit trail configurations</li>
+                        <li>• Implementar procedimentos de validação de backup</li>
+                        <li>• Iniciar projeto de validação WMS</li>
+                        <li>• Aprimorar configurações de trilha de auditoria</li>
                       </ul>
                     </div>
                   </div>

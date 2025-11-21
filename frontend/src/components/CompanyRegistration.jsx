@@ -193,7 +193,7 @@ const CompanyRegistration = () => {
                   <Label htmlFor="companySize" className="text-foreground font-medium">
                     Porte da Empresa *
                   </Label>
-                  <Select value={formData.companySize} onValueChange={(value) => updateFormData('companySize', value)}>
+                  <Select value={formData.size} onValueChange={(value) => updateFormData('size', value)}>
                     <SelectTrigger className="bg-background border-border">
                       <SelectValue placeholder="Selecione o porte da empresa" />
                     </SelectTrigger>

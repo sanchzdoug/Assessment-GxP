@@ -1072,9 +1072,9 @@ const ReportsPage = () => {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Award className="h-5 w-5" />
-                Executive Summary
+                Resumo Executivo
               </CardTitle>
-              <CardDescription>Key findings and overall compliance assessment</CardDescription>
+              <CardDescription>Principais descobertas e avaliação geral de compliance</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

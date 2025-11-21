@@ -522,7 +522,7 @@ const AssessmentWizard = () => {
       // Create assessment record
       const assessmentRecord = {
         id: Date.now(),
-        companyName: companyData.companyName || 'Empresa Não Informada',
+        companyName: companyData.name || companyData.companyName || 'Empresa Não Informada',
         companySegment: companyData.segment || 'Segmento Não Informado',
         assessmentDate: new Date().toISOString(),
         completionDate: new Date().toISOString(),

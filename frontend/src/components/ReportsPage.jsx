@@ -1303,7 +1303,7 @@ const ReportsPage = () => {
         return;
       }
 
-      toast.success("🚀 Gerando Relatório Completo navegando por TODAS as abas... Por favor aguarde.");
+      toast.success("🚀 Gerando Relatório Completo com TODAS as seções... Por favor aguarde.");
       
       try {
         // Import jsPDF and html2canvas directly (no sandbox issues)

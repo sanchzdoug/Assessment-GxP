@@ -171,7 +171,7 @@ const CompanyRegistration = () => {
 
                 {/* Company Type */}
                 <div className="space-y-3">
-                  <Label className="text-foreground font-medium">Organization Type *</Label>
+                  <Label className="text-foreground font-medium">Tipo de Organização *</Label>
                   <RadioGroup 
                     value={formData.type} 
                     onValueChange={(value) => updateFormData('type', value)}
@@ -179,23 +179,23 @@ const CompanyRegistration = () => {
                   >
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="headquarters" id="headquarters" />
-                      <Label htmlFor="headquarters" className="text-foreground">Headquarters</Label>
+                      <Label htmlFor="headquarters" className="text-foreground">Matriz</Label>
                     </div>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="branch" id="branch" />
-                      <Label htmlFor="branch" className="text-foreground">Branch/Subsidiary</Label>
+                      <Label htmlFor="branch" className="text-foreground">Filial/Subsidiária</Label>
                     </div>
                   </RadioGroup>
                 </div>
 
-                {/* Company Size */}
+                {/* Porte da Empresa */}
                 <div className="space-y-2">
                   <Label htmlFor="companySize" className="text-foreground font-medium">
-                    Company Size *
+                    Porte da Empresa *
                   </Label>
                   <Select value={formData.companySize} onValueChange={(value) => updateFormData('companySize', value)}>
                     <SelectTrigger className="bg-background border-border">
-                      <SelectValue placeholder="Select company size" />
+                      <SelectValue placeholder="Selecione o porte da empresa" />
                     </SelectTrigger>
                     <SelectContent>
                       {companySizes.map((size) => (
@@ -210,13 +210,13 @@ const CompanyRegistration = () => {
                 {/* Exact Employee Count */}
                 <div className="space-y-2">
                   <Label htmlFor="employees" className="text-foreground font-medium">
-                    Number of Employees
-                    <span className="text-muted-foreground font-normal ml-1">(Optional)</span>
+                    Número de Funcionários
+                    <span className="text-muted-foreground font-normal ml-1">(Opcional)</span>
                   </Label>
                   <Input
                     id="employees"
                     type="number"
-                    placeholder="Enter exact number of employees"
+                    placeholder="Digite o número exato de funcionários"
                     value={formData.employees}
                     onChange={(e) => updateFormData('employees', e.target.value)}
                     className="bg-background border-border"

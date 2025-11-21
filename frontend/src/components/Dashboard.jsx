@@ -119,8 +119,7 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2">
-              <Shield className="h-8 w-8 text-primary" />
-              <span className="text-xl font-space-grotesk font-bold text-foreground">GxP Compass</span>
+              <img src="/softexpert-logo.svg" alt="SoftExpert" className="h-8" />
             </Link>
             <div className="hidden md:flex items-center gap-6">
               <Link to="/dashboard" className="text-primary font-medium">
